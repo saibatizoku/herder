@@ -1,5 +1,6 @@
 [package]
 name = "herder"
+description = "A client for Mastodon, a GNU Social-compatible microbbloging server."
 version = "0.1.0"
 authors = ["Joaquin R <globojorro@gmail.com>"]
 
