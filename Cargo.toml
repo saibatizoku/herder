@@ -6,3 +6,6 @@ authors = ["Joaquin R <globojorro@gmail.com>"]
 
 [dependencies]
 curl = "0.4"
+serde = "0.9"
+serde_derive = "0.9"
+serde_json = "0.9"
