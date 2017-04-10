@@ -2,7 +2,8 @@ extern crate herder;
 
 #[test]
 fn create_client() {
-    unimplemented!()
+    let mastodon_node = herder::Mastodon::new("http://localhost");
+    assert_eq!(mastodon_node.endpoint, String::from("http://localhost"));
 }
 
 #[test]
