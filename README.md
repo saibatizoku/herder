@@ -1,43 +1,46 @@
-# herder
+herder
+======
 
 A rust client for Mastodon, a GNU Social-compatible microblogging service.
 
-# TODO
+** This crate is under development, and will keep on changing often. Be warned.**
 
-* OAuth2 authentication
+Usage
+-----
 
-    * Register client for token-access (a one-time thing)
+[WIP]
+### Create a client for a Mastodon Node
 
-    * Token authentication for API usage
+    >> extern crate herder;
+    >> use herder::Mastodon;
+    >> let mastodon_node = Mastodon::new("https://localhost");
 
-* Implement Mastodon API
+---
 
-    * Accounts
+[WIP]
+### Create a new OAuth2 App on a Mastodon Node
+    >> let mut oauthapp = mastodon_node.oauth_app("my_app"):
+    >> oauthapp.redirect_uris = "urn:ietf:wg:oauth:2.0:oob";
+    >> oauthapp.scopes = "read write follow";
 
-        - */api/v1/accounts/:id*
+---
 
-        - */api/v1/accounts/verify_credentials*
+[WIP]
+### Register a new OAuth2 App on a Mastodon Node
+    >> let mut app_secrets = oauthapp.add().unwrap();
+    >> app_secrets.username("yourusername");
+    >> app_secrets.password("yourpassword");
+    >> let api_token = oauthapp.register(app_secrets).unwrap();
 
-        - */api/v1/accounts/:id/followers*
+  You would now need to login to your Mastodon node, and authorize the
+  new app we have just registered. Once authorized, the token
 
-        - */api/v1/accounts/:id/following*
+---
+[WIP]
+Or, if the client app is already registered, it may be loaded from file.
+    >> let mut herder = mastodon_node.load_app("my_app.json"):
 
-        - */api/v1/accounts/:id/statuses*
+TODO
+----
 
-        - */api/v1/accounts/:id/follow*
-
-        - */api/v1/accounts/:id/unfollow*
-
-        - */api/v1/accounts/:id/block*
-
-        - */api/v1/accounts/:id/unblock*
-
-        - */api/v1/accounts/:id/mute*
-
-        - */api/v1/accounts/:id/unmute*
-
-        - */api/v1/accounts/relationships*
-
-        - */api/v1/accounts/search*
-
-    * ...
+* Implement Mastodon API (v1) as found at the official [API Overview](https://github.com/tootsuite/mastodon/blob/master/docs/Using-the-API/API.md)
