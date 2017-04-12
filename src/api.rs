@@ -32,7 +32,7 @@ pub mod v1 {
     }
 
     pub struct Account {
-        pub id: i64,
+        pub id: i32,
         pub username: String,
         pub acct: String,
         pub display_name: String,
@@ -53,7 +53,7 @@ pub mod v1 {
     }
 
     pub struct Attachment {
-        pub id: i64,
+        pub id: i32,
         pub attachment_type: String,
         pub url: String,
         pub remote_url: String,
@@ -70,30 +70,81 @@ pub mod v1 {
     }
 
     pub struct Context {
-        pub ancestors: Vec<Status>
+        pub ancestors: Vec<Status>,
+        pub descendants: Vec<Status>
     }
 
     pub struct Error {
+        error: String
     }
 
     pub struct Instance {
+        url: String,
+        title: String,
+        description: String,
+        email: String
     }
 
     pub struct Mention {
+        id: i32,
+        url: String,
+        username: String,
+        acct: String
     }
 
     pub struct Notification {
+        id: i32,
+        notification_type: String,
+        created_at: String,
+        account: Account,
+        status: Option<Status>
     }
 
     pub struct Relationship {
+        id: i32,
+        following: bool,
+        followed_by: bool,
+        blocking: bool,
+        muting: bool,
+        requested: bool
+    }
+
+    pub struct Report {
+        id: i32,
+        action_taken: String,
     }
 
     pub struct Results {
+        accounts: Vec<Account>,
+        statuses: Vec<Status>,
+        hashtags: Vec<String>
     }
 
     pub struct Status {
+        id: i32,
+        uri: String,
+        url: String,
+        account: Account,
+        in_reply_to_id: Option<i32>,
+        in_reply_to_account_id: Option<i32>,
+        reblog: Option<Box<Status>>,
+        content: String,
+        created_at: String,
+        reblogs_count: i32,
+        favourites_count: i32,
+        reblogged: bool,
+        favourited: bool,
+        sensitive: bool,
+        spoiler_text: String,
+        visibility: String,
+        media_attachments: Vec<Attachment>,
+        mentions: Vec<Mention>,
+        tags: Vec<Tag>,
+        application: Application
     }
 
     pub struct Tag {
+        name: String,
+        url: String
     }
 }
