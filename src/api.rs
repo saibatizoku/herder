@@ -32,46 +32,46 @@ pub mod v1 {
     }
 
     pub struct Account {
-        pub id: i32,
-        pub username: String,
-        pub acct: String,
-        pub display_name: String,
-        pub note: String,
-        pub url: String,
-        pub avatar: String,
-        pub header: String,
-        pub locked: bool,
-        pub created_at: String,
-        pub followers_count: i32,
-        pub following_count: i32,
-        pub statuses_count: i32
+        id: i32,
+        username: String,
+        acct: String,
+        display_name: String,
+        note: String,
+        url: String,
+        avatar: String,
+        header: String,
+        locked: bool,
+        created_at: String,
+        followers_count: i32,
+        following_count: i32,
+        statuses_count: i32
     }
 
     pub struct Application {
-        pub name: String,
-        pub website: Option<String>
+        name: String,
+        website: Option<String>
     }
 
     pub struct Attachment {
-        pub id: i32,
-        pub attachment_type: String,
-        pub url: String,
-        pub remote_url: String,
-        pub preview_url: String,
-        pub text_url: String
+        id: i32,
+        attachment_type: String,
+        url: String,
+        remote_url: String,
+        preview_url: String,
+        text_url: String
 
     }
 
     pub struct Card {
-        pub url: String,
-        pub title: String,
-        pub descrption: String,
-        pub image: String,
+        url: String,
+        title: String,
+        descrption: String,
+        image: String,
     }
 
     pub struct Context {
-        pub ancestors: Vec<Status>,
-        pub descendants: Vec<Status>
+        ancestors: Vec<Status>,
+        descendants: Vec<Status>
     }
 
     pub struct Error {
