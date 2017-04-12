@@ -1,8 +1,11 @@
 extern crate herder;
 
+use herder::entities::Mastodon;
+use herder::oauth::OAuthApp;
+
 #[test]
-fn create_client() {
-    let mastodon_node = herder::Mastodon::new("http://localhost");
+fn mastodon_node_created() {
+    let mastodon_node = Mastodon::new("http://localhost");
     assert_eq!(mastodon_node.endpoint, String::from("http://localhost"));
 }
 
