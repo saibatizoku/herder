@@ -1,7 +1,7 @@
 use curl::easy::{Easy, Form};
 use std::fmt;
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Debug, Deserialize, PartialEq, Serialize)]
 pub struct OAuthApp {
     id: Option<u64>,
     client_id: String,

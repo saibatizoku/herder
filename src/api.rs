@@ -32,6 +32,7 @@ pub mod v1 {
         Timelines
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Account {
         id: i32,
         username: String,
@@ -48,11 +49,13 @@ pub mod v1 {
         statuses_count: i32
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Application {
         name: String,
         website: Option<String>
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Attachment {
         id: i32,
         attachment_type: String,
@@ -63,6 +66,7 @@ pub mod v1 {
 
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Card {
         url: String,
         title: String,
@@ -70,15 +74,18 @@ pub mod v1 {
         image: String,
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Context {
         ancestors: Vec<Status>,
         descendants: Vec<Status>
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Error {
         error: String
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Instance {
         url: String,
         title: String,
@@ -86,6 +93,7 @@ pub mod v1 {
         email: String
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Mention {
         id: i32,
         url: String,
@@ -93,6 +101,7 @@ pub mod v1 {
         acct: String
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Notification {
         id: i32,
         notification_type: String,
@@ -101,6 +110,7 @@ pub mod v1 {
         status: Option<Status>
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Relationship {
         id: i32,
         following: bool,
@@ -110,17 +120,20 @@ pub mod v1 {
         requested: bool
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Report {
         id: i32,
         action_taken: String,
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Results {
         accounts: Vec<Account>,
         statuses: Vec<Status>,
         hashtags: Vec<String>
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Status {
         id: i32,
         uri: String,
@@ -144,6 +157,7 @@ pub mod v1 {
         application: Application
     }
 
+    #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Tag {
         name: String,
         url: String
