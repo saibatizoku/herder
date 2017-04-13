@@ -3,6 +3,9 @@ name = "herder"
 description = "A client for Mastodon, a GNU Social-compatible microbbloging server."
 version = "0.1.0"
 authors = ["Joaquin R <globojorro@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/saibatizoku/herder"
+keywords = ["http", "rest", "client", "mastodon", "gnu social"]
 
 [dependencies]
 curl = "0.4"
