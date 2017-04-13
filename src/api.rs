@@ -14,6 +14,7 @@ pub mod v1 {
         Status,
         Tag
     }
+
     pub enum Method {
         Accounts,
         Apps,

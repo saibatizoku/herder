@@ -1,6 +1,6 @@
 extern crate herder;
 
-use herder::entities::Mastodon;
+use herder::Mastodon;
 use herder::oauth::OAuthApp;
 
 #[test]
