@@ -1,7 +1,7 @@
 extern crate herder;
 
 use herder::Mastodon;
-use herder::oauth::OAuthApp;
+use herder::OAuthApp;
 
 #[test]
 fn mastodon_node_created() {

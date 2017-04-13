@@ -9,3 +9,4 @@ pub mod client;
 pub mod oauth;
 
 pub use client::Mastodon;
+pub use oauth::OAuthApp;
