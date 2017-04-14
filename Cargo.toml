@@ -9,7 +9,10 @@ keywords = ["http", "rest", "client", "mastodon", "gnu social"]
 
 [dependencies]
 curl = "0.4"
+futures = "*"
 hyper = { git = "https://github.com/hyperium/hyper.git", branch = "master" }
+tokio-core = "0.1"
+tokio-curl = "0.1"
 serde = "0.9"
 serde_derive = "0.9"
 serde_json = "0.9"
