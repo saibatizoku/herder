@@ -1,7 +1,7 @@
 extern crate herder;
 extern crate serde_json;
 
-use herder::api::v1::{
+use herder::api::v1::entities::{
     Account,
     Application,
     Attachment,
