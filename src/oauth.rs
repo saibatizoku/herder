@@ -3,10 +3,10 @@ use std::fmt;
 
 #[derive(Debug, Deserialize, PartialEq, Serialize)]
 pub struct OAuthApp {
-    id: Option<u64>,
-    client_id: String,
-    client_secret: String,
-    redirect_uri: String
+    pub id: Option<u64>,
+    pub client_id: String,
+    pub client_secret: String,
+    pub redirect_uri: String
 }
 
 impl OAuthApp {
