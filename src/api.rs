@@ -35,7 +35,8 @@ pub mod v1 {
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Account {
-        id: i32,
+        #[serde(rename = "id")]
+        account_id: i32,
         username: String,
         acct: String,
         display_name: String,
@@ -106,7 +107,9 @@ pub mod v1 {
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Notification {
-        id: i32,
+        #[serde( rename = "id")]
+        notification_id: i32,
+        #[serde( rename = "type")]
         notification_type: String,
         created_at: String,
         account: Account,
@@ -140,7 +143,8 @@ pub mod v1 {
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Status {
-        id: i32,
+        #[serde(rename = "id")]
+        status_id: i32,
         uri: String,
         url: String,
         account: Account,
