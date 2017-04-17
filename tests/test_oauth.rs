@@ -5,8 +5,13 @@ use herder::OAuthApp;
 
 #[test]
 fn oauthapp_from_json() {
-    let ojson = "{\"id\":1234,\"client_id\":\"CID\",\"client_secret\":\"CSEC\",\"redirect_uri\":\"MYURI\"}".as_bytes();
-    let oauth: OAuthApp = serde_json::from_slice(&ojson).unwrap();
+    let ojson = r#"{
+                    "id": 1234,
+                    "client_id": "CID",
+                    "client_secret": "CSEC",
+                    "redirect_uri": "MYURI"
+                 }"#;
+    let oauth: OAuthApp = serde_json::from_str(ojson).unwrap();
     assert_eq!(oauth, OAuthApp {
                         id: Some(1234),
                         client_id: String::from("CID"),
