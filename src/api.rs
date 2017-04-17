@@ -36,19 +36,19 @@ pub mod v1 {
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Account {
         #[serde(rename = "id")]
-        account_id: i32,
-        username: String,
-        acct: String,
-        display_name: String,
-        note: String,
-        url: String,
-        avatar: String,
-        header: String,
-        locked: bool,
-        created_at: String,
-        followers_count: i32,
-        following_count: i32,
-        statuses_count: i32
+        pub account_id: i32,
+        pub username: String,
+        pub acct: String,
+        pub display_name: String,
+        pub note: String,
+        pub url: String,
+        pub avatar: String,
+        pub header: String,
+        pub locked: bool,
+        pub created_at: String,
+        pub followers_count: i32,
+        pub following_count: i32,
+        pub statuses_count: i32
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
@@ -79,8 +79,8 @@ pub mod v1 {
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Context {
-        ancestors: Vec<Status>,
-        descendants: Vec<Status>
+        pub ancestors: Vec<Status>,
+        pub descendants: Vec<Status>
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
@@ -108,12 +108,12 @@ pub mod v1 {
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Notification {
         #[serde( rename = "id")]
-        notification_id: i32,
+        pub notification_id: i32,
         #[serde( rename = "type")]
-        notification_type: String,
-        created_at: String,
-        account: Account,
-        status: Option<Status>
+        pub notification_type: String,
+        pub created_at: String,
+        pub account: Account,
+        pub status: Option<Status>
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
@@ -136,34 +136,34 @@ pub mod v1 {
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Results {
-        accounts: Vec<Account>,
-        statuses: Vec<Status>,
-        hashtags: Vec<String>
+        pub accounts: Vec<Account>,
+        pub statuses: Vec<Status>,
+        pub hashtags: Vec<String>
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Status {
         #[serde(rename = "id")]
-        status_id: i32,
-        uri: String,
-        url: String,
-        account: Account,
-        in_reply_to_id: Option<i32>,
-        in_reply_to_account_id: Option<i32>,
-        reblog: Option<Box<Status>>,
-        content: String,
-        created_at: String,
-        reblogs_count: i32,
-        favourites_count: i32,
-        reblogged: bool,
-        favourited: bool,
-        sensitive: bool,
-        spoiler_text: String,
-        visibility: String,
-        media_attachments: Vec<Attachment>,
-        mentions: Vec<Mention>,
-        tags: Vec<Tag>,
-        application: Application
+        pub status_id: i32,
+        pub uri: String,
+        pub url: String,
+        pub account: Account,
+        pub in_reply_to_id: Option<i32>,
+        pub in_reply_to_account_id: Option<i32>,
+        pub reblog: Option<Box<Status>>,
+        pub content: String,
+        pub created_at: String,
+        pub reblogs_count: i32,
+        pub favourites_count: i32,
+        pub reblogged: bool,
+        pub favourited: bool,
+        pub sensitive: bool,
+        pub spoiler_text: String,
+        pub visibility: String,
+        pub media_attachments: Vec<Attachment>,
+        pub mentions: Vec<Mention>,
+        pub tags: Vec<Tag>,
+        pub application: Application
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
