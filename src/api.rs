@@ -51,27 +51,28 @@ pub mod v1 {
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Application {
-        name: String,
-        website: Option<String>
+        pub name: String,
+        pub website: Option<String>
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Attachment {
-        id: i32,
-        attachment_type: String,
-        url: String,
-        remote_url: String,
-        preview_url: String,
-        text_url: String
-
+        #[serde(rename = "id")]
+        pub attachment_id: i32,
+        #[serde(rename = "type")]
+        pub attachment_type: String,
+        pub url: String,
+        pub remote_url: String,
+        pub preview_url: String,
+        pub text_url: String
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Card {
-        url: String,
-        title: String,
-        descrption: String,
-        image: String,
+        pub url: String,
+        pub title: String,
+        pub description: String,
+        pub image: String,
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
@@ -82,7 +83,7 @@ pub mod v1 {
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Error {
-        error: String
+        pub error: String
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
