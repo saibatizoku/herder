@@ -89,18 +89,19 @@ pub mod v1 {
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Instance {
-        url: String,
-        title: String,
-        description: String,
-        email: String
+        pub url: String,
+        pub title: String,
+        pub description: String,
+        pub email: String
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Mention {
-        id: i32,
-        url: String,
-        username: String,
-        acct: String
+        #[serde(rename = "id")]
+        pub mention_id: i32,
+        pub url: String,
+        pub username: String,
+        pub acct: String
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
@@ -114,18 +115,20 @@ pub mod v1 {
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Relationship {
-        id: i32,
-        following: bool,
-        followed_by: bool,
-        blocking: bool,
-        muting: bool,
-        requested: bool
+        #[serde(rename = "id")]
+        pub relationship_id: i32,
+        pub following: bool,
+        pub followed_by: bool,
+        pub blocking: bool,
+        pub muting: bool,
+        pub requested: bool
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Report {
-        id: i32,
-        action_taken: String,
+        #[serde(rename = "id")]
+        pub report_id: i32,
+        pub action_taken: String,
     }
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
@@ -161,7 +164,7 @@ pub mod v1 {
 
     #[derive(Debug, Deserialize, PartialEq, Serialize)]
     pub struct Tag {
-        name: String,
-        url: String
+        pub name: String,
+        pub url: String
     }
 }
