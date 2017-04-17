@@ -2,6 +2,7 @@ extern crate herder;
 extern crate serde_json;
 
 use herder::api::v1::{
+    Account,
     Application,
     Attachment,
     Card,
@@ -19,6 +20,11 @@ use herder::api::v1::{
 
 #[test]
 fn account_deserialize_from_json() {
+    unimplemented!();
+}
+
+#[test]
+fn application_deserialize_from_json() {
     let ojson = r#"{
                     "name": "MYNAME",
                     "website": "MYURI"
@@ -82,4 +88,44 @@ fn error_deserialize_from_json() {
     assert_eq!(error, Error {
                         error: String::from("Error message")
     });
+}
+
+#[test]
+fn instance_deserialize_from_json() {
+    unimplemented!();
+}
+
+#[test]
+fn mention_deserialize_from_json() {
+    unimplemented!();
+}
+
+#[test]
+fn notification_deserialize_from_json() {
+    unimplemented!();
+}
+
+#[test]
+fn relationship_deserialize_from_json() {
+    unimplemented!();
+}
+
+#[test]
+fn report_deserialize_from_json() {
+    unimplemented!();
+}
+
+#[test]
+fn results_deserialize_from_json() {
+    unimplemented!();
+}
+
+#[test]
+fn status_deserialize_from_json() {
+    unimplemented!();
+}
+
+#[test]
+fn tag_deserialize_from_json() {
+    unimplemented!();
 }

@@ -10,6 +10,7 @@ pub mod v1 {
         Mention,
         Notification,
         Relationship,
+        Report,
         Results,
         Status,
         Tag
