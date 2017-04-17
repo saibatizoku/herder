@@ -92,12 +92,36 @@ fn error_deserialize_from_json() {
 
 #[test]
 fn instance_deserialize_from_json() {
-    unimplemented!();
+    let ojson = r#"{
+                    "url": "MYURL",
+                    "title": "My Title",
+                    "description": "My description",
+                    "email": "MYEMAIL"
+                 }"#;
+    let instance: Instance = serde_json::from_str(ojson).unwrap();
+    assert_eq!(instance, Instance {
+                        url: String::from("MYURL"),
+                        title: String::from("My Title"),
+                        description: String::from("My description"),
+                        email: String::from("MYEMAIL")
+    });
 }
 
 #[test]
 fn mention_deserialize_from_json() {
-    unimplemented!();
+    let ojson = r#"{
+                    "id": 1234,
+                    "url": "MYURL",
+                    "username": "MYUSERNAME",
+                    "acct": "MYUSERNAME@REMOTEDOMAIN"
+                 }"#;
+    let mention: Mention = serde_json::from_str(ojson).unwrap();
+    assert_eq!(mention, Mention {
+                        mention_id: 1234,
+                        url: String::from("MYURL"),
+                        username: String::from("MYUSERNAME"),
+                        acct: String::from("MYUSERNAME@REMOTEDOMAIN")
+    });
 }
 
 #[test]
@@ -107,7 +131,23 @@ fn notification_deserialize_from_json() {
 
 #[test]
 fn relationship_deserialize_from_json() {
-    unimplemented!();
+    let ojson = r#"{
+                    "id": 1234,
+                    "following": true,
+                    "followed_by": true,
+                    "blocking": true,
+                    "muting": true,
+                    "requested": true
+                 }"#;
+    let relationship: Relationship = serde_json::from_str(ojson).unwrap();
+    assert_eq!(relationship, Relationship {
+                        relationship_id: 1234,
+                        following: true,
+                        followed_by: true,
+                        blocking: true,
+                        muting: true,
+                        requested: true
+    });
 }
 
 #[test]
