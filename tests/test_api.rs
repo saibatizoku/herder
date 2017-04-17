@@ -112,7 +112,15 @@ fn relationship_deserialize_from_json() {
 
 #[test]
 fn report_deserialize_from_json() {
-    unimplemented!();
+    let ojson = r#"{
+                    "id": 1234,
+                    "action_taken": "Some action taken"
+                 }"#;
+    let report: Report = serde_json::from_str(ojson).unwrap();
+    assert_eq!(report, Report {
+                        report_id: 1234,
+                        action_taken: String::from("Some action taken")
+    });
 }
 
 #[test]
@@ -127,5 +135,13 @@ fn status_deserialize_from_json() {
 
 #[test]
 fn tag_deserialize_from_json() {
-    unimplemented!();
+    let ojson = r#"{
+                    "name": "rustlang",
+                    "url": "MYURL"
+                 }"#;
+    let tag: Tag = serde_json::from_str(ojson).unwrap();
+    assert_eq!(tag, Tag {
+                        name: String::from("rustlang"),
+                        url: String::from("MYURL")
+    });
 }
