@@ -4,7 +4,17 @@ extern crate serde_json;
 use herder::api::v1::{
     Application,
     Attachment,
-    Card
+    Card,
+    Context,
+    Error,
+    Instance,
+    Mention,
+    Notification,
+    Relationship,
+    Report,
+    Results,
+    Status,
+    Tag
 };
 
 #[test]
@@ -55,5 +65,21 @@ fn card_deserialize_from_json() {
                         title: String::from("My Title"),
                         description: String::from("My description"),
                         image: String::from("MYIMG.png")
+    });
+}
+
+#[test]
+fn context_deserialize_from_json() {
+    unimplemented!();
+}
+
+#[test]
+fn error_deserialize_from_json() {
+    let ojson = r#"{
+                    "error": "Error message"
+                 }"#;
+    let error: Error = serde_json::from_str(ojson).unwrap();
+    assert_eq!(error, Error {
+                        error: String::from("Error message")
     });
 }
