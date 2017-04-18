@@ -34,6 +34,6 @@ fn client_builds_api_endpoint_urls() {
 }
 
 #[test]
-fn client_publish_a_toot() {
+fn client_builds_api_request() {
     unimplemented!()
 }
