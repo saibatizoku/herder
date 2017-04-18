@@ -17,18 +17,23 @@ impl Mastodon {
     pub fn client(&self, token: &str) -> Client {
         Client {
             url_base: String::from(self.url()),
-            bearer_token: String::from(token)
+            token: String::from(token)
         }
-    }
-
-    pub fn endpoint_url(&self, path: &str) -> String {
-        let base = Url::parse(&self.0).unwrap();
-        let url = base.join(path).unwrap();
-        url.into_string()
     }
 }
 
 pub struct Client {
     pub url_base: String,
-    pub bearer_token: String
+    pub token: String
+}
+
+pub trait ApiHandler {
+    fn endpoint_url_string(&self, path: &str) -> String;
+}
+
+impl ApiHandler for Client {
+    fn endpoint_url_string(&self, path: &str) -> String {
+        let base = Url::parse(&self.url_base).unwrap();
+        base.join(path).unwrap().into_string()
+    }
 }
