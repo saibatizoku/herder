@@ -1,4 +1,5 @@
 pub mod entities;
+pub mod methods;
 
 pub use self::entities::{
     Account,
