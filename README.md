@@ -15,4 +15,4 @@ Currently, you can checkout the `examples` folder for use-cases involving the co
 TODO
 ----
 
-* Implement Mastodon API (v1) as found at the official [API Overview](https://github.com/tootsuite/mastodon/blob/master/docs/Using-the-API/API.md)
+* Implement Mastodon API (v1) as found at the official [API Overview](https://github.com/tootsuite/documentation/blob/master/Using-the-API/API.md)
