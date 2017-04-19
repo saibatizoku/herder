@@ -59,8 +59,16 @@ fn client_search_accounts() {
     unimplemented!()
 }
 
-// API Methods: Accounts
-// #[test]
-// fn client_() {
-//     unimplemented!()
-// }
+// API Methods: Apps
+// API Methods: Blocks
+// API Methods: Favorites
+// API Methods: FollowRequests
+// API Methods: Follows
+// API Methods: Instances
+// API Methods: Media
+// API Methods: Mutes
+// API Methods: Notifications
+// API Methods: Reports
+// API Methods: Search
+// API Methods: Statuses
+// API Methods: Timelines
