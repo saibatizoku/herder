@@ -16,3 +16,8 @@ TODO
 ----
 
 * Implement Mastodon API (v1) as found at the official [API Overview](https://github.com/tootsuite/documentation/blob/master/Using-the-API/API.md)
+
+  - [ ] Web Client, hyper-based
+  - [ ] API Entities
+  - [ ] API Methods
+  - [-] OAuth Application registration and authorization
