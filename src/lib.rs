@@ -2,6 +2,8 @@
 //!
 extern crate curl;
 extern crate serde_json;
+extern crate url;
+
 #[macro_use] extern crate serde_derive;
 
 pub mod api;
