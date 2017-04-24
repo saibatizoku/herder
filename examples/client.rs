@@ -29,6 +29,7 @@ fn main() {
     let social_app = CreateApp::default();
 
     println!("new app: {:?}", new_app);
+    println!("new app form data: {}", new_app.form_encode());
     println!("new herder app: {:?}", herder_app);
     println!("new herder social app: {:?}", social_app);
 
@@ -63,7 +64,11 @@ impl CreateApp {
         }
     }
 
-    fn form_encode(&self) -> &str {
-        ""
+    fn form_encode(&self) -> String {
+        form_urlencoded::Serializer::new(String::new())
+            .append_pair("client_name", &self.client_name)
+            .append_pair("redirect_uris", &self.redirect_uris)
+            .append_pair("scopes", &self.scopes)
+            .finish()
     }
 }
