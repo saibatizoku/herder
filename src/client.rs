@@ -1,4 +1,5 @@
 //! This module contains the code representing Mastodon nodes and API Clients
+//!
 use super::oauth::{CreateApp, OAuthApp};
 use url::Url;
 use serde_json;
@@ -40,9 +41,7 @@ impl Mastodon {
     }
 }
 
-/// # Client
-///
-/// The API Client, currently works for version 1.
+/// The API Client, currently works for version 1 of the Mastodon API.
 pub struct Client {
     pub url_base: String,
     pub token: String
