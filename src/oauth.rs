@@ -52,6 +52,18 @@ pub fn make_client(app: &OAuthApp, node_endpoint: &str) -> Easy {
     handle
 }
 
+/// # Ways to create an app
+///
+/// let social_app = CreateApp {
+///     client_name: String::from("herder"),
+///     redirect_uris: String::from("urn:ietf:wg:oauth:2.0:oob"),
+///     scopes: String::from("read write follow")
+/// };
+///
+/// let social_app = CreateApp::new("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow");
+///
+/// let social_app = CreateApp::default();
+///
 #[derive(Debug)]
 pub struct CreateApp {
     client_name: String,
