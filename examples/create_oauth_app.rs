@@ -4,7 +4,9 @@ extern crate serde_json;
 use herder::Mastodon;
 
 fn main() {
-    let api_url = "https://toot.cat/api/v1/apps";
+    // FIXME This example needs to point to a Mastodon node in order to run.
+    // Need to read it from args to avoid annoying users.
+    let api_url = "https://localhost:3000/api/v1/apps";
 
     // TODO !!! after successfully getting the herder_app registered,
     // we still need to show the user the link where they can authorize
