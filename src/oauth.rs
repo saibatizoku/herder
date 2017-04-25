@@ -1,3 +1,4 @@
+//! This module contains the code for registering new OAuth Applications, such as our `Client`s.
 use curl::easy::{Easy, Form};
 use hyper::{Client, Body, Post, Error};
 use hyper::client::Request;

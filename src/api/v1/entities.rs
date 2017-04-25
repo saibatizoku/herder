@@ -1,3 +1,5 @@
+//! This module contains the Mastodon API Entities `/api/v1`.
+//!
 #[derive(Debug, Deserialize, PartialEq, Serialize)]
 pub struct Account {
     #[serde(rename = "id")]

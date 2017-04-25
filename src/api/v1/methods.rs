@@ -1,3 +1,5 @@
+//! This module contains the Mastodon API Methods `/api/v1`.
+//!
 pub struct ApiMethod {
     pub endpoint: String,
     pub method: AccountsMethod

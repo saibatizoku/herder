@@ -1,4 +1,5 @@
-//! herder v0.1.0
+//! `herder` is a crate that provides asynchronous clients for Mastodon, a GNU-Social
+//! compatible microblogging service.
 //!
 extern crate curl;
 extern crate futures;
@@ -14,5 +15,11 @@ pub mod api;
 pub mod client;
 pub mod oauth;
 
+/// Use `Client` to interact with `Mastodon`.
+pub use client::Client;
+
+/// Use `Mastodon` to define the server you wish to connect to. Only HTTPS is supported.
 pub use client::Mastodon;
+
+/// Use `OAuthApp` to register your `Client` on `Mastodon`.
 pub use oauth::OAuthApp;
