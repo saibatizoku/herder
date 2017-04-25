@@ -1,5 +1,15 @@
 use curl::easy::{Easy, Form};
+use hyper::{Client, Body, Post, Error};
+use hyper::client::Request;
+use hyper::header::ContentType;
+use hyper_tls::HttpsConnector;
+use futures::{Future, Stream};
+use tokio_core::reactor::Core;
+use url::form_urlencoded;
+
 use std::fmt;
+use std::io::Write;
+use std::sync::{Arc, Mutex};
 
 #[derive(Debug, Deserialize, PartialEq, Serialize)]
 pub struct OAuthApp {
@@ -40,4 +50,62 @@ pub fn make_client(app: &OAuthApp, node_endpoint: &str) -> Easy {
     handle.url(node_endpoint).unwrap();
     handle.httppost(form_data).unwrap();
     handle
+}
+
+#[derive(Debug)]
+pub struct CreateApp {
+    client_name: String,
+    redirect_uris: String,
+    scopes: String
+}
+
+impl Default for CreateApp {
+    fn default() -> Self {
+        CreateApp {
+            client_name: String::from("herder"),
+            redirect_uris: String::from("urn:ietf:wg:oauth:2.0:oob"),
+            scopes: String::from("read")
+        }
+    }
+}
+
+impl CreateApp {
+    pub fn new(name: &str, uris: &str, scopes: &str) -> CreateApp {
+        CreateApp {
+            client_name: String::from(name),
+            redirect_uris: String::from(uris),
+            scopes: String::from(scopes)
+        }
+    }
+
+    pub fn register_app(&self, api_url: &str, dst: Arc<Mutex<Vec<u8>>>) -> Result<(), Error> {
+        let mut core = Core::new().unwrap();
+        let client = Client::configure()
+            .connector(HttpsConnector::new(4, &core.handle()))
+            .build(&core.handle());
+
+        let mut req: Request<Body> = Request::new(Post, api_url.parse().unwrap());
+        req.headers_mut().set(ContentType::form_url_encoded());
+        req.set_body(Body::from(self.form_encode()));
+        let mut dst = dst.lock().unwrap();
+        let work = client.request(req).and_then(|res| {
+            res.body().for_each(|chunk| {
+                dst.extend_from_slice(&chunk);
+                ::std::io::stdout().write_all(&chunk)
+                    .map(|_| ())
+                    .map_err(From::from)
+            })
+        });
+        core.run(work).expect("couldn't work");
+        Ok(())
+    }
+
+    fn form_encode(&self) -> String {
+        form_urlencoded::Serializer::new(String::new())
+            .append_pair("client_name", &self.client_name)
+            .append_pair("redirect_uris", &self.redirect_uris)
+            .append_pair("scopes", &self.scopes)
+            .finish()
+    }
+
 }

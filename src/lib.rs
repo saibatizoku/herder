@@ -1,7 +1,11 @@
 //! herder v0.1.0
 //!
 extern crate curl;
+extern crate futures;
+extern crate hyper;
+extern crate hyper_tls;
 extern crate serde_json;
+extern crate tokio_core;
 extern crate url;
 
 #[macro_use] extern crate serde_derive;
