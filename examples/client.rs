@@ -19,7 +19,7 @@ fn main() {
     //
     // let social_app = CreateApp::default();
     //
-    let api_url = "https://mastodon.cloud/api/v1/apps";
+    let api_url = "http://localhost:3000/api/v1/apps";
     let out = Arc::new(Mutex::new(Vec::new()));
 
     let social_app = CreateApp::new("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow");
