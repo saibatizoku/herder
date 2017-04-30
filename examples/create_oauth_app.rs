@@ -1,12 +1,24 @@
+extern crate clap;
 extern crate herder;
 extern crate serde_json;
 
+use clap::{Arg, App, SubCommand};
 use herder::Mastodon;
 
 fn main() {
-    // FIXME This example needs to point to a Mastodon node in order to run.
-    // Need to read it from args to avoid annoying users.
-    let api_url = "https://localhost:3000/api/v1/apps";
+    let matches = App::new("Herder Mastodon API Client")
+        .version("0.1.4")
+        .author("saibatizoku")
+        .about("Connects to a Mastodon instance")
+        .arg(Arg::with_name("url")
+             .short("u")
+             .long("url")
+             .value_name("URL")
+             .help("Sets the URL for the Mastodon instance")
+             .takes_value(true))
+        .get_matches();
+
+    let api_url = matches.value_of("url").unwrap_or("https://localhost:3000/");
 
     // TODO !!! after successfully getting the herder_app registered,
     // we still need to show the user the link where they can authorize

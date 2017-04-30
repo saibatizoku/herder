@@ -8,6 +8,7 @@ repository = "https://github.com/saibatizoku/herder"
 keywords = ["http", "rest", "client", "mastodon", "gnu social"]
 
 [dependencies]
+clap = "~2.23.0"
 curl = "0.4"
 futures = "*"
 hyper = { git = "https://github.com/hyperium/hyper.git", branch = "master" }
