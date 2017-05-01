@@ -10,6 +10,15 @@ EXAMPLES
 
 Currently, you can checkout the `examples` folder for use-cases involving the code.
 
+## examples/create-oauth-app
+
+To run this example:
+
+    ```
+    cargo run --example create-oauth-app -- --url https://MASTODON_SERVER_URL/
+    ```
+
+
 ** As the crate is under development, the examples will be changing often. **
 
 TODO
