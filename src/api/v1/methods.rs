@@ -1,8 +1,22 @@
 //! This module contains the Mastodon API Methods `/api/v1`.
 //!
-pub struct ApiMethod {
-    pub endpoint: String,
-    pub method: AccountsMethod
+
+use oauth::OAuthApp;
+use super::entities;
+
+pub trait Accounts {
+    /// Returns an `Account` given its unique `account_id`.
+    fn fetch_account(&self, account_id: usize) -> Result<entities::Account, &str>;
+    /// gets the `Account` for the authenticated user.
+    /// 
+    /// `account_id` is required.
+    fn get_current_user(&self) -> Result<entities::Account, &str>;
+    /// updates the `Account` for the authenticated user.
+    ///
+    /// `UserFormData` form data is required.
+    fn update_current_user(&self, form_data: String) -> Result<entities::Account, &str>;
+    /// get a vector of the account's followers.
+    fn get_account_followers(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
 }
 
 pub enum AccountsMethod {
@@ -20,7 +34,8 @@ pub enum AccountsMethod {
     SearchAccounts
 }
 
-pub enum AppsMethod {
+pub trait AppsMethod {
+    fn register_app(&self, name: &str, uris: &str, scopes: &str) -> OAuthApp;
 }
 
 pub enum BlocksMethod {

@@ -90,7 +90,7 @@ impl CreateApp {
         }
     }
 
-    pub fn register_app(&self, api_url: &str, dst: Arc<Mutex<Vec<u8>>>) -> Result<(), Error> {
+    pub fn register(&self, api_url: &str, dst: Arc<Mutex<Vec<u8>>>) -> Result<(), Error> {
         let mut core = Core::new().unwrap();
         let client = Client::configure()
             .connector(HttpsConnector::new(4, &core.handle()))
