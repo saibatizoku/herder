@@ -43,7 +43,7 @@ fn main() {
         println!();
         println!("Saving to JSON File: {}", path);
         let mut out = File::create(path).expect("Invalid file path");
-        serde_json::to_writer(&mut out, &oauth_app).unwrap();
+        serde_json::to_writer(&mut out, &oauth_app).expect("Could not save OAuth to JSON File.");
         println!("JSON File '{}' saved.", path);
     }
 }

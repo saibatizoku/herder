@@ -17,17 +17,24 @@ Currently, you can checkout the `examples` folder for use-cases involving the co
 To run this example:
 
 
+Get help with how the example works, anytime by running:
+```
+cargo run --example create-oauth-app -- -h
+```
+
+To register a new app, simply specify the HTTPS path to your Mastodon node.
 ```
 cargo run --example create-oauth-app -- https://mastodon.example.com
 ```
 
+To save the response in JSON format:
+```
+cargo run --example create-oauth-app -- https://mastodon.otherexample.com/ -j out.json
+```
 or
-
 ```
-cargo run --example create-oauth-app -- https://mastodon.otherexample.com/ --save-json out.json
+cargo run --example create-oauth-app -- https://mastodon.otherexample.com/ --json-file out.json
 ```
-
-if you  want to save the OAuth App in json format.
 
 
 TODO
