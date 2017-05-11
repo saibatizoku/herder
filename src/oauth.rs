@@ -9,7 +9,6 @@ use tokio_core::reactor::Core;
 use url::form_urlencoded;
 
 use std::fmt;
-use std::io::Write;
 use std::sync::{Arc, Mutex};
 
 #[derive(Debug, Deserialize, PartialEq, Serialize)]
@@ -104,9 +103,7 @@ impl CreateApp {
         let work = client.request(req).and_then(|res| {
             res.body().for_each(|chunk| {
                 dst.extend_from_slice(&chunk);
-                ::std::io::stdout().write_all(&chunk)
-                    .map(|_| ())
-                    .map_err(From::from)
+                Ok(())
             })
         });
         core.run(work).expect("couldn't work");

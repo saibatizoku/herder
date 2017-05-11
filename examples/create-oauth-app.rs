@@ -2,8 +2,9 @@ extern crate clap;
 extern crate herder;
 extern crate serde_json;
 
-use clap::{Arg, App, SubCommand};
+use clap::{Arg, App};
 use herder::Mastodon;
+use herder::oauth::OAuthApp;
 
 fn main() {
     let matches = App::new("Herder Mastodon API Client")
@@ -18,17 +19,13 @@ fn main() {
              .takes_value(true))
         .get_matches();
 
-    let api_url = matches.value_of("url").unwrap_or("https://localhost:3000/");
+    let base_url = matches.value_of("url").unwrap_or("https://localhost:3000");
+    let mastodon = Mastodon(format!("{}/api/v1/apps", base_url));
+    let oauth_app: OAuthApp = mastodon.create_app("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow");
 
-    // TODO !!! after successfully getting the herder_app registered,
-    // we still need to show the user the link where they can authorize
-    // our app. After that, we're good to go using our API!
-    //
-    // We haven't used herder::Mastodon yet!
-    let mastodon = Mastodon(String::from(api_url));
-    println!("Mastodon: {:?}", mastodon);
-    // use super::oauth::OAuthApp;
-    //
-    // let oauth_app: OAuthApp = mastodon.create_app("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow");
-    mastodon.create_app("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow");
+    println!("Run the following with `curl`:");
+    println!();
+    println!("curl -X POST -d 'client_id={}&client_secret={}&grant_type=password&username=YOUR_EMAIL&password=YOUR_PASSWORD' -Ss  {}/oauth/token", oauth_app.client_id, oauth_app.client_secret, base_url);
+    println!("\nto register this app on your Mastodon node. Replace `YOUR_EMAIL` and `YOUR_PASSWORD` with the appropriate values.");
+    println!("\nNOTE that your login credentials are being sent. This is not considered the best practice. Be careful and be warned!");
 }
