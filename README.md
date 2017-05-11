@@ -15,9 +15,9 @@ Currently, you can checkout the `examples` folder for use-cases involving the co
 To run this example:
 
 
-    ```rust
-    cargo run --example create-oauth-app -- --url https://mastodon.example.com
-    ```
+```
+cargo run --example create-oauth-app -- --url https://mastodon.example.com
+```
     
     Note that the url doesn't include a trailing slash (/).
 
