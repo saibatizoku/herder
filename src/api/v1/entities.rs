@@ -1,6 +1,6 @@
 //! This module contains the Mastodon API Entities `/api/v1`.
 //!
-#[derive(Debug, Deserialize, PartialEq, Serialize)]
+#[derive(Debug, Default, Deserialize, PartialEq, Serialize)]
 pub struct Account {
     #[serde(rename = "id")]
     pub account_id: i32,
