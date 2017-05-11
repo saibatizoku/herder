@@ -1,6 +1,25 @@
-// API Methods: Accounts
+extern crate herder;
+extern crate hyper;
+
+use herder::client::APIMethod;
+use hyper::Method::{Get};
+
+#[test]
+fn default_api_method() {
+    let default = APIMethod {
+        request_method: Get,
+        endpoint: String::new(),
+        form_data: None,
+        url_query: None
+    };
+    assert_eq!(default, APIMethod::default())
+}
+
+/// API Methods: Accounts
+/// Tests API Methods for Accounts
 #[test]
 fn client_fetches_account() {
+    /// Fetching an account. Returns _Account_.
     unimplemented!()
 }
 
@@ -35,7 +54,7 @@ fn client_follow_account() {
 }
 
 #[test]
-fn client_unfullow_account() {
+fn client_unfollow_account() {
     unimplemented!()
 }
 
