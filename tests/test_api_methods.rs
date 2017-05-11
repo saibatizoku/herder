@@ -1,7 +1,7 @@
 extern crate herder;
 extern crate hyper;
 
-use herder::client::APIMethod;
+use herder::api::APIMethod;
 use hyper::Method::{Get};
 
 #[test]
