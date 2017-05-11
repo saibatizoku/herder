@@ -19,11 +19,15 @@ To run this example:
 
 ```
 cargo run --example create-oauth-app -- https://mastodon.example.com
+```
 
 or
 
-cargo run --example create-oauth-app -- https://mastodon.otherexample.com/
 ```
+cargo run --example create-oauth-app -- https://mastodon.otherexample.com/ --save-json out.json
+```
+
+if you  want to save the OAuth App in json format.
 
 
 TODO

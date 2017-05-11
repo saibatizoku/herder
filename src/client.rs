@@ -26,7 +26,8 @@ impl Mastodon {
             token: String::from(token)
         }
     }
-    pub fn create_app(&self, name: &str, uris: &str, scopes: &str) -> OAuthApp {
+
+    pub fn register_app(&self, name: &str, uris: &str, scopes: &str) -> OAuthApp {
         /// ```rust,no_run
         /// let herder_app: OAuthApp = serde_json::from_slice(&result).unwrap();
         /// println!("\n{:?}\n", &herder_app);
