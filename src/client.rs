@@ -1,12 +1,12 @@
 //! This module contains the code representing Mastodon nodes and API Clients
 //!
-use hyper;
 use serde_json;
 use url::Url;
 
+use super::api::APIMethod;
+use super::api::oauth::{CreateApp, OAuthApp};
 use super::api::v1::entities;
 use super::api::v1::methods;
-use super::oauth::{CreateApp, OAuthApp};
 
 use std::sync::{Arc, Mutex};
 
