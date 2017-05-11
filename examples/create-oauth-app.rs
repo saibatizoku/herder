@@ -12,16 +12,15 @@ fn main() {
         .author("saibatizoku")
         .about("Connects to a Mastodon instance")
         .arg(Arg::with_name("url")
-             .short("u")
-             .long("url")
-             .value_name("URL")
-             .help("Sets the URL for the Mastodon instance")
+             .help("Sets the URL, https only, for the Mastodon instance. Example: https://example.com/")
+             .value_name("BASEURL")
+             .required(true)
              .takes_value(true))
         .get_matches();
 
     let base_url = matches.value_of("url").unwrap_or("https://localhost:3000");
-    let mastodon = Mastodon(format!("{}/api/v1/apps", base_url));
-    let oauth_app: OAuthApp = mastodon.create_app("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow");
+    let mastodon = Mastodon(format!("{}", base_url));
+    let oauth_app: OAuthApp = mastodon.register_app("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow");
 
     println!("Run the following with `curl`:");
     println!();

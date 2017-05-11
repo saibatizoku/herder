@@ -16,8 +16,8 @@ impl Mastodon {
         Mastodon(String::from(url))
     }
 
-    pub fn url(&self) -> &str {
-        &self.0
+    pub fn url(&self) -> String {
+        Url::parse(&self.0).unwrap().into_string()
     }
 
     pub fn client(&self, token: &str) -> Client {
@@ -34,7 +34,7 @@ impl Mastodon {
         /// ```
         let out = Arc::new(Mutex::new(Vec::new()));
         let social_app = CreateApp::new(name, uris, scopes);
-        social_app.register_app(self.url(), out.clone()).unwrap();
+        social_app.register_app(&self.endpoint_url_string("/api/v1/apps"), out.clone()).unwrap();
 
         let result = out.lock().unwrap();
         serde_json::from_slice(&result).expect("Could not parse OAuth from response")
@@ -49,6 +49,13 @@ pub struct Client {
 
 pub trait ApiHandler {
     fn endpoint_url_string(&self, path: &str) -> String;
+}
+
+impl ApiHandler for Mastodon {
+    fn endpoint_url_string(&self, path: &str) -> String {
+        let base = Url::parse(&self.url()).unwrap();
+        base.join(path).unwrap().into_string()
+    }
 }
 
 impl ApiHandler for Client {

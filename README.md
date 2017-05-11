@@ -18,11 +18,12 @@ To run this example:
 
 
 ```
-cargo run --example create-oauth-app -- --url https://mastodon.example.com
-```
-    
-    Note that the url doesn't include a trailing slash (/).
+cargo run --example create-oauth-app -- https://mastodon.example.com
 
+or
+
+cargo run --example create-oauth-app -- https://mastodon.otherexample.com/
+```
 
 
 TODO
