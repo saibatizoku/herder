@@ -3,28 +3,29 @@
 use serde_json;
 use url::Url;
 
+use api::Client;
 use api::oauth::{CreateApp, OAuthApp};
-use api::v1::client::Client;
+use errors::*;
 
 use std::sync::{Arc, Mutex};
 
 /// `Mastodon` is used to specify the base url of a Mastodon node.
 /// Only HTTPS connections are supported.
 #[derive(Debug)]
-pub struct Mastodon(pub String);
+pub struct Mastodon(pub Url);
 
 impl Mastodon {
-    pub fn new(url: &str) -> Mastodon {
-        Mastodon(String::from(url))
+    pub fn new(url: &str) -> Result<Mastodon> {
+        Ok(Mastodon(Url::parse(url).unwrap()))
     }
 
     pub fn url(&self) -> String {
-        Url::parse(&self.0).unwrap().into_string()
+        self.0.clone().into_string()
     }
 
     pub fn client(&self, token: &str) -> Client {
         Client {
-            url_base: String::from(self.url()),
+            url_base: self.0.clone(),
             token: String::from(token)
         }
     }
@@ -47,12 +48,15 @@ impl Mastodon {
 }
 
 pub trait ApiHandler {
+    fn endpoint_url(&self, path: &str) -> Url;
     fn endpoint_url_string(&self, path: &str) -> String;
 }
 
 impl ApiHandler for Mastodon {
+    fn endpoint_url(&self, path: &str) -> Url {
+        self.0.clone().join(path).unwrap()
+    }
     fn endpoint_url_string(&self, path: &str) -> String {
-        let base = Url::parse(&self.url()).unwrap();
-        base.join(path).unwrap().into_string()
+        self.endpoint_url(path).into_string()
     }
 }

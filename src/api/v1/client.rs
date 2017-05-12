@@ -23,14 +23,16 @@ use super::methods::{
 
 /// The API Client, currently works for version 1 of the Mastodon API.
 pub struct Client {
-    pub url_base: String,
+    pub url_base: Url,
     pub token: String
 }
 
 impl ApiHandler for Client {
+    fn endpoint_url(&self, path: &str) -> Url {
+        self.url_base.clone().join(path).unwrap()
+    }
     fn endpoint_url_string(&self, path: &str) -> String {
-        let base = Url::parse(&self.url_base).unwrap();
-        base.join(path).unwrap().into_string()
+        self.endpoint_url(path).into_string()
     }
 }
 

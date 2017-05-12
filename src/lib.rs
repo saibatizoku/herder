@@ -9,8 +9,14 @@ extern crate serde_json;
 extern crate tokio_core;
 extern crate url;
 
-#[macro_use] extern crate serde_derive;
-#[macro_use] extern crate error_chain;
+// `error_chain!` can recurse deeply
+#![recursion_limit = "1024"]
+
+#[macro_use]
+extern crate serde_derive;
+
+#[macro_use]
+extern crate error_chain;
 
 pub mod api;
 pub mod mastodon;
