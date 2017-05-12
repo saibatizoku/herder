@@ -15,7 +15,7 @@ extern crate url;
 pub mod api;
 pub mod client;
 pub mod errors {
-    //! Setup `error-chain`
+    //! Setup `error-chain` for our crate.
     error_chain!{}
 }
 

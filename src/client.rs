@@ -84,10 +84,79 @@ impl methods::Accounts for Client {
     fn get_current_user(&self) -> Result<entities::Account, &str> {
         unimplemented!();
     }
-    fn update_current_user(&self, form_data: String) -> Result<entities::Account, &str> {
+    fn update_current_user(&self, form_data: methods::UserFormData) -> Result<entities::Account, &str> {
         unimplemented!()
     }
     fn get_account_followers(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
         unimplemented!()
     }
+    fn get_account_following(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
+        unimplemented!()
+    }
+    fn get_account_statutes(&self, account_id: usize) -> Result<Vec<entities::Status>, &str> {
+        unimplemented!()
+    }
+    fn follow_account(&self, account_id: usize) -> Result<entities::Relationship, &str> {
+        unimplemented!()
+    }
+    fn unfollow_account(&self, account_id: usize) -> Result<entities::Relationship, &str> {
+        unimplemented!()
+    }
+    fn mute_account(&self, account_id: usize) -> Result<entities::Relationship, &str> {
+        unimplemented!()
+    }
+    fn unmute_account(&self, account_id: usize) -> Result<entities::Relationship, &str> {
+        unimplemented!()
+    }
+    fn get_account_relationships(&self, account_id: usize) -> Result<Vec<entities::Relationship>, &str> {
+        unimplemented!()
+    }
+    fn search_accounts(&self, search_query: String) -> Result<Vec<entities::Account>, &str> {
+        unimplemented!()
+    }
+}
+impl methods::Blocks for Client {
+    fn block_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
+        unimplemented!()
+    }
+    fn unblock_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
+        unimplemented!()
+    }
+}
+impl methods::Favourites for Client {
+    fn favourite_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
+        unimplemented!()
+    }
+    fn unfavourite_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
+        unimplemented!()
+    }
+}
+impl methods::FollowRequests for Client {
+}
+
+impl methods::Follows for Client {
+}
+
+impl methods::Instances for Client {
+}
+
+impl methods::Media for Client {
+}
+
+impl methods::Mutes for Client {
+}
+
+impl methods::Notifications for Client {
+}
+
+impl methods::Reports for Client {
+}
+
+impl methods::Search for Client {
+}
+
+impl methods::Statuses for Client {
+}
+
+impl methods::Timelines for Client {
 }

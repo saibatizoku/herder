@@ -4,72 +4,160 @@
 use api::oauth::OAuthApp;
 use super::entities;
 
+/// updatable fields for the authenticated user.
+#[derive(Debug, Deserialize, PartialEq, Serialize)]
+pub struct UserFormData {
+    display_name: Option<String>,
+    note: Option<String>,
+    avatar: Option<String>,
+    header: Option<String>
+}
+
+impl UserFormData {
+    pub fn new(&self, display_name: Option<String>, note: Option<String>, avatar: Option<String>, header: Option<String>) -> Self {
+        UserFormData {
+            display_name,
+            note,
+            avatar,
+            header
+        }
+    }
+}
+
 pub trait Accounts {
-    /// Returns an `Account` given its unique `account_id`.
+    /// Fetching an account:
+    ///
+    /// ```
+    /// GET /api/v1/accounts/:account_id
+    /// ```
+    ///
+    /// Returns an `Account`.
     fn fetch_account(&self, account_id: usize) -> Result<entities::Account, &str>;
-    /// gets the `Account` for the authenticated user.
-    /// 
-    /// `account_id` is required.
+
+    /// Getting the current user:
+    ///
+    /// ```
+    /// GET /api/v1/accounts/verify_credentials
+    /// ```
+    ///
+    /// Returns the authenticated user's `Account`.
     fn get_current_user(&self) -> Result<entities::Account, &str>;
-    /// updates the `Account` for the authenticated user.
+
+    /// Updating the current user:
+    ///
+    /// ```
+    /// PATCH /api/v1/accounts/update_credentials
+    /// ```
     ///
     /// `UserFormData` form data is required.
-    fn update_current_user(&self, form_data: String) -> Result<entities::Account, &str>;
-    /// get a vector of the account's followers.
+    fn update_current_user(&self, form_data: UserFormData) -> Result<entities::Account, &str>;
+
+    /// Getting an account's followers:
+    ///
+    /// ```
+    /// GET /api/v1/accounts/:account_id/followers
+    /// ```
+    /// Query parameters:
+    ///
+    /// `max_id`   | Get a list of followers with ID less than or equal this value. It's optional.
+    ///
+    /// `since_id` | Get a list of followers with ID greater than this value. It's optional.
+    ///
+    /// `limit`    | Maximum number of followers to get (Default 40, Max 80). It's optional.
+    ///
+    /// Returns an array of `Account`s.
     fn get_account_followers(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+
+    /// Get who account is following:
+    ///
+    /// ```
+    /// GET /api/v1/accounts/:account_id/following
+    /// ```
+    ///
+    /// Query parameters:
+    ///
+    /// `max_id`   | Get a list of followers with ID less than or equal this value. It's optional.
+    ///
+    /// `since_id` | Get a list of followers with ID greater than this value. It's optional.
+    ///
+    /// `limit`    | Maximum number of followers to get (Default 40, Max 80). It's optional.
+    ///
+    /// Returns an array of `Account`s.
+    fn get_account_following(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+
+    /// Get an account's statuses:
+    ///
+    /// ```
+    /// GET /api/v1/accounts/:account_id/statuses
+    /// ```
+    ///
+    /// Query parameters:
+    ///
+    /// `only_media`      | Only return statuses that have media attachments. It's optional.
+    ///
+    /// `exclude_replies` | Skip statuses that reply to other statuses. It's optional.
+    ///
+    /// `max_id`          | Get a list of statutes with ID less than or equal this value. It's optional.
+    ///
+    /// `since_id`        | Get a list of statutes with ID greater than this value. It's optional.
+    ///
+    /// `limit`           | Maximum number of statutes to get (Default 40, Max 80). It's optional.
+    ///
+    /// Returns an array of `Status`es.
+    fn get_account_statutes(&self, account_id: usize) -> Result<Vec<entities::Status>, &str>;
+
+    fn follow_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
+
+    fn unfollow_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
+
+    fn mute_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
+
+    fn unmute_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
+
+    fn get_account_relationships(&self, account_id: usize) -> Result<Vec<entities::Relationship>, &str>;
+
+    fn search_accounts(&self, search_query: String) -> Result<Vec<entities::Account>, &str>;
 }
 
-pub enum AccountsMethod {
-    FetchAccount,
-    GetCurrentUser,
-    UpdateCurrentUser,
-    GetAccountFollowers,
-    GetFollowing,
-    GetAccountStatuses,
-    FollowAccount,
-    UnfollowAccount,
-    MuteAccount,
-    UnmuteAccount,
-    GetAccountRelationships,
-    SearchAccounts
-}
-
-pub trait AppsMethod {
+pub trait Apps {
     fn register_app(&self, name: &str, uris: &str, scopes: &str) -> OAuthApp;
 }
 
-pub enum BlocksMethod {
+pub trait Blocks {
+    fn block_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+    fn unblock_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+}
+pub trait Favourites {
+    fn favourite_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+    fn unfavourite_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
 }
 
-pub enum FavoritesMethod {
+pub trait FollowRequests {
 }
 
-pub enum FollowRequestsMethod {
+pub trait Follows {
 }
 
-pub enum FollowsMethod {
+pub trait Instances {
 }
 
-pub enum InstancesMethod {
+pub trait Media {
 }
 
-pub enum MediaMethod {
+pub trait Mutes {
 }
 
-pub enum MutesMethod {
+pub trait Notifications {
 }
 
-pub enum NotificationsMethod {
+pub trait Reports {
 }
 
-pub enum ReportsMethod {
+pub trait Search {
 }
 
-pub enum SearchMethod {
+pub trait Statuses {
 }
 
-pub enum StatusesMethod {
-}
-
-pub enum TimelinesMethod {
+pub trait Timelines {
 }
