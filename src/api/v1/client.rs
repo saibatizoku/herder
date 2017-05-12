@@ -8,10 +8,13 @@ use super::entities;
 use super::methods;
 use super::methods::{
     AccountID,
+    HomeTimelineQuery,
     NotificationID,
     SearchAccountsQuery,
     SearchContentsQuery,
     StatusID,
+    TagID,
+    TimelineQuery,
     UserFormData
 };
 
@@ -188,13 +191,13 @@ impl methods::Statuses for Client {
 }
 
 impl methods::Timelines for Client {
-    fn home_timeline(&self, query: String) -> Result<Vec<entities::Status>, &str> {
+    fn home_timeline(&self, query: HomeTimelineQuery) -> Result<Vec<entities::Status>, &str> {
         unimplemented!()
     }
-    fn public_timeline(&self, query: String) -> Result<Vec<entities::Status>, &str> {
+    fn public_timeline(&self, query: TimelineQuery) -> Result<Vec<entities::Status>, &str> {
         unimplemented!()
     }
-    fn tag_timeline(&self, hashtag: String, query: String) -> Result<Vec<entities::Status>, &str> {
+    fn tag_timeline(&self, hashtag: TagID, query: TimelineQuery) -> Result<Vec<entities::Status>, &str> {
         unimplemented!()
     }
 }

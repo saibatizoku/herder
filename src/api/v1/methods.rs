@@ -42,14 +42,37 @@ pub struct StatusID {
     pub id: usize
 }
 
+/// Tag ID.
+#[derive(Debug, PartialEq)]
+pub struct TagID {
+    pub id: usize
+}
+
+/// Fields to query accounts.
 pub struct SearchAccountsQuery {
     pub q: String,
     pub limit: Option<usize>
 }
 
+/// Fields to query contents.
 pub struct SearchContentsQuery {
     pub q: String,
     pub resolve: Option<bool>
+}
+
+/// Fields to query the home timeline.
+pub struct HomeTimelineQuery {
+    pub max_id: Option<usize>,
+    pub since_id: Option<usize>,
+    pub limit: Option<usize>
+}
+
+/// Fields to query the public/tag timeline.
+pub struct TimelineQuery {
+    pub local: Option<bool>,
+    pub max_id: Option<usize>,
+    pub since_id: Option<usize>,
+    pub limit: Option<usize>
 }
 
 /// Methods for interacting with accounts on a Mastodon node.
@@ -626,7 +649,7 @@ pub trait Timelines {
     /// It is optional.
     ///
     /// Returns an array of `Status`es, most recent ones first.
-    fn home_timeline(&self, query: String) -> Result<Vec<entities::Status>, &str>;
+    fn home_timeline(&self, query: HomeTimelineQuery) -> Result<Vec<entities::Status>, &str>;
 
     /// Retrieving a public timeline:
     ///
@@ -648,7 +671,7 @@ pub trait Timelines {
     /// Returns an array of `Status`es, most recent ones first.
     ///
     /// Does not require authentication.
-    fn public_timeline(&self, query: String) -> Result<Vec<entities::Status>, &str>;
+    fn public_timeline(&self, query: TimelineQuery) -> Result<Vec<entities::Status>, &str>;
 
     /// Retrieving a timeline:
     ///
@@ -670,5 +693,5 @@ pub trait Timelines {
     /// Returns an array of `Status`es, most recent ones first.
     ///
     /// Does not require authentication.
-    fn tag_timeline(&self, hashtag: String, query: String) -> Result<Vec<entities::Status>, &str>;
+    fn tag_timeline(&self, hashtag: TagID, query: TimelineQuery) -> Result<Vec<entities::Status>, &str>;
 }
