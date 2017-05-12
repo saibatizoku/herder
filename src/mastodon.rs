@@ -15,22 +15,32 @@ use std::sync::{Arc, Mutex};
 pub struct Mastodon(pub Url);
 
 impl Mastodon {
+    /// Create a new Mastodon instance.
     pub fn new(url: &str) -> Result<Mastodon> {
         Ok(Mastodon(Url::parse(url).chain_err(|| "Invalid URL")?))
     }
 
-    pub fn url(&self) -> String {
+}
+
+trait NodeInstance {
+    fn url(&self) -> String;
+    fn client(&self, token: &str) -> Client;
+    fn register_app(&self, name: &str, uris: &str, scopes: &str) -> OAuthApp;
+}
+
+impl NodeInstance for Mastodon {
+    fn url(&self) -> String {
         self.0.clone().into_string()
     }
 
-    pub fn client(&self, token: &str) -> Client {
+    fn client(&self, token: &str) -> Client {
         Client {
             url_base: self.0.clone(),
             token: String::from(token)
         }
     }
 
-    pub fn register_app(&self, name: &str, uris: &str, scopes: &str) -> OAuthApp {
+    fn register_app(&self, name: &str, uris: &str, scopes: &str) -> OAuthApp {
         /// ```rust,no_run
         /// let herder_app: OAuthApp = serde_json::from_slice(&result).unwrap();
         /// println!("\n{:?}\n", &herder_app);
