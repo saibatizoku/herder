@@ -4,7 +4,8 @@ extern crate serde_json;
 
 use clap::{Arg, App};
 use herder::Mastodon;
-use herder::api::oauth::OAuthApp;
+use herder::mastodon::NodeInstance;
+use herder::api::oauth::{CreateApp, OAuthApp};
 
 use std::fs::File;
 
@@ -27,8 +28,8 @@ fn main() {
         .get_matches();
 
     let base_url = matches.value_of("url").unwrap_or("https://localhost:3000");
-    let mastodon = Mastodon(format!("{}", base_url));
-    let oauth_app: OAuthApp = mastodon.register_app("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow");
+    let mastodon = Mastodon::new(base_url).unwrap();
+    let oauth_app: OAuthApp = mastodon.register_app(CreateApp::new("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow")).unwrap();
 
     println!("Run the following with `curl`:");
     println!();

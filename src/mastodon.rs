@@ -14,46 +14,37 @@ use std::sync::{Arc, Mutex};
 #[derive(Debug)]
 pub struct Mastodon(pub Url);
 
-impl Mastodon {
+/// Methods to interact with a Mastodon instance.
+pub trait NodeInstance {
     /// Create a new Mastodon instance.
-    pub fn new(url: &str) -> Result<Mastodon> {
-        Ok(Mastodon(Url::parse(url).chain_err(|| "Invalid URL")?))
-    }
-
-}
-
-trait NodeInstance {
-    fn url(&self) -> String;
-    fn client(&self, token: &str) -> Client;
-    fn register_app(&self, name: &str, uris: &str, scopes: &str) -> OAuthApp;
+    fn new(url: &str) -> Result<Mastodon>;
+    /// Returns the base `Url` of the Mastodon instance.
+    fn url(&self) -> Result<Url>;
+    /// Returns a Client for the API of the Mastodon instance.
+    fn client(&self, token: &str) -> Result<Client>;
+    /// Register a 3rd-party App with the Mastodon instance.
+    fn register_app(&self, app: CreateApp) -> Result<OAuthApp>;
 }
 
 impl NodeInstance for Mastodon {
-    fn url(&self) -> String {
-        self.0.clone().into_string()
+    fn new(url: &str) -> Result<Mastodon> {
+        Ok(Mastodon(Url::parse(url).chain_err(|| "Invalid URL")?))
     }
-
-    fn client(&self, token: &str) -> Client {
-        Client {
-            url_base: self.0.clone(),
+    fn url(&self) -> Result<Url> {
+        Ok(self.0.clone())
+    }
+    fn client(&self, token: &str) -> Result<Client> {
+        Ok(Client {
+            url_base: self.url().chain_err(|| "Could not set the base URL")?,
             token: String::from(token)
-        }
+        })
     }
 
-    fn register_app(&self, name: &str, uris: &str, scopes: &str) -> OAuthApp {
-        /// ```rust,no_run
-        /// let herder_app: OAuthApp = serde_json::from_slice(&result).unwrap();
-        /// println!("\n{:?}\n", &herder_app);
-        /// println!("\n{}\n", serde_json::to_string(&herder_app).unwrap());
-        /// ```
+    fn register_app(&self, app: CreateApp) -> Result<OAuthApp> {
         let out = Arc::new(Mutex::new(Vec::new()));
-        let social_app = CreateApp::new(name, uris, scopes);
-        social_app.register(&self.endpoint_url_string("/api/v1/apps"), out.clone()).unwrap();
-
-        let result = out.lock().unwrap();
-        let json: OAuthApp = serde_json::from_slice(&result).expect("Could not parse OAuth from response");
-        //format!("{}", &json)
-        json
+        app.register(&self.endpoint_url_string("/api/v1/apps"), out.clone()).chain_err(|| "Could not register App.")?;
+        let oauth: OAuthApp = serde_json::from_slice(&out.lock().unwrap()).chain_err(|| "Could not parse OAuth from response.")?;
+        Ok(oauth)
     }
 }
 

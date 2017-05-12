@@ -15,7 +15,7 @@ fn main() {
     let mut app = OAuthApp::new();
     let mastodon_endpoint = "http://localhost:3000/api/v1/apps";
 
-    let mut client = herder::oauth::make_client(&app, mastodon_endpoint);
+    let mut client = herder::api::oauth::make_client(&app, mastodon_endpoint);
     {
         let mut transfer = client.transfer();
         transfer.write_function(|d| {

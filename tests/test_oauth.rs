@@ -1,7 +1,7 @@
 extern crate herder;
 extern crate serde_json;
 
-use herder::OAuthApp;
+use herder::api::oauth::OAuthApp;
 
 #[test]
 fn oauthapp_from_json() {
