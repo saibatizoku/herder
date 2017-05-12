@@ -1,4 +1,4 @@
-//! `herder` is a crate that provides asynchronous clients for Mastodon, a GNU-Social
+//! a library that provides asynchronous clients for Mastodon, a GNU-Social
 //! compatible microblogging service.
 //!
 extern crate curl;
@@ -14,11 +14,7 @@ extern crate url;
 
 pub mod api;
 pub mod mastodon;
-pub mod errors {
-    //! Setup `error-chain` for our crate.
-    error_chain!{}
-}
+pub mod errors;
 
-pub use api::v1::client::Client;
+pub use api::Client;
 pub use mastodon::Mastodon;
-pub use errors::*;

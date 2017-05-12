@@ -5,6 +5,8 @@ use hyper;
 pub mod v1;
 pub mod oauth;
 
+pub use self::v1::client::Client;
+
 /// constructor of HTTPS requests, used in API Mehtods.
 ///
 #[derive(Debug, Default, PartialEq)]
