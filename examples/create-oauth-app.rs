@@ -10,7 +10,7 @@ use std::fs::File;
 
 fn main() {
     let matches = App::new("Herder Mastodon API Client")
-        .version("0.1.4")
+        .version("0.1.5")
         .author("saibatizoku")
         .about("Connects to a Mastodon instance")
         .arg(Arg::with_name("url")
