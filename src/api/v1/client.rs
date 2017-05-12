@@ -9,6 +9,8 @@ use super::methods;
 use super::methods::{
     AccountID,
     NotificationID,
+    SearchAccountsQuery,
+    SearchContentsQuery,
     StatusID,
     UserFormData
 };
@@ -72,7 +74,7 @@ impl methods::Accounts for Client {
     fn get_account_relationships(&self, account_id: AccountID) -> Result<Vec<entities::Relationship>, &str> {
         unimplemented!()
     }
-    fn search_accounts(&self, query: String) -> Result<Vec<entities::Account>, &str> {
+    fn search_accounts(&self, query: SearchAccountsQuery) -> Result<Vec<entities::Account>, &str> {
         unimplemented!()
     }
 }
@@ -144,7 +146,7 @@ impl methods::Reports for Client {
 }
 
 impl methods::Search for Client {
-    fn search_content(&self, query: String) -> Result<entities::Results, &str> {
+    fn search_content(&self, query: SearchContentsQuery) -> Result<entities::Results, &str> {
         unimplemented!()
     }
 }

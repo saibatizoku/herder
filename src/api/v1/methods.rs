@@ -42,6 +42,16 @@ pub struct StatusID {
     pub id: usize
 }
 
+pub struct SearchAccountsQuery {
+    pub q: String,
+    pub limit: Option<usize>
+}
+
+pub struct SearchContentsQuery {
+    pub q: String,
+    pub resolve: Option<bool>
+}
+
 /// Methods for interacting with accounts on a Mastodon node.
 pub trait Accounts {
     /// Fetching an account:
@@ -208,7 +218,7 @@ pub trait Accounts {
     ///
     /// Will lookup an account remotely if the search term is in the `username@domain` format and
     /// not yet in the database.
-    fn search_accounts(&self, query: String) -> Result<Vec<entities::Account>, &str>;
+    fn search_accounts(&self, query: SearchAccountsQuery) -> Result<Vec<entities::Account>, &str>;
 }
 
 pub trait Apps {
@@ -460,7 +470,7 @@ pub trait Search {
     /// it will do a local account and hashtag search.
     ///
     /// Does not require authentication.
-    fn search_content(&self, query: String) -> Result<entities::Results, &str>;
+    fn search_content(&self, query: SearchContentsQuery) -> Result<entities::Results, &str>;
 }
 
 pub trait Statuses {
@@ -608,8 +618,6 @@ pub trait Timelines {
     ///
     /// Query parameters:
     ///
-    /// `local`   Only return statuses originating from this instance (public and tag timelines only). It is optional.
-    ///
     /// `max_id`  Get a list of timelines with ID less than or equal this value. It is optional.
     ///
     /// `since_id`    Get a list of timelines with ID greater than this value. It is optional.
@@ -628,7 +636,7 @@ pub trait Timelines {
     ///
     /// Query parameters:
     ///
-    /// `local`   Only return statuses originating from this instance (public and tag timelines only). It is optional.
+    /// `local`   Only return statuses originating from this instance. It is optional.
     ///
     /// `max_id`  Get a list of timelines with ID less than or equal this value. It is optional.
     ///
@@ -650,7 +658,7 @@ pub trait Timelines {
     ///
     /// Query parameters:
     ///
-    /// `local`   Only return statuses originating from this instance (public and tag timelines only). It is optional.
+    /// `local`   Only return statuses originating from this instance. It is optional.
     ///
     /// `max_id`  Get a list of timelines with ID less than or equal this value. It is optional.
     ///
