@@ -13,11 +13,12 @@ extern crate url;
 #[macro_use] extern crate error_chain;
 
 pub mod api;
-pub mod client;
+pub mod mastodon;
 pub mod errors {
     //! Setup `error-chain` for our crate.
     error_chain!{}
 }
 
-pub use client::{Client, Mastodon};
+pub use api::v1::client::Client;
+pub use mastodon::Mastodon;
 pub use errors::*;
