@@ -7,8 +7,10 @@ use mastodon::ApiHandler;
 use super::entities;
 use super::methods;
 use super::methods::{
-    UserFormData,
-    AccountID
+    AccountID,
+    NotificationID,
+    StatusID,
+    UserFormData
 };
 
 
@@ -124,7 +126,7 @@ impl methods::Notifications for Client {
     fn fetch_notifications(&self, query: String) -> Result<Vec<entities::Notification>, &str> {
         unimplemented!()
     }
-    fn get_notification(&self, notification_id: usize) -> Result<entities::Notification, &str> {
+    fn get_notification(&self, notification_id: NotificationID) -> Result<entities::Notification, &str> {
         unimplemented!()
     }
     fn clear_notifications(&self) -> Result<(), &str> {
@@ -148,37 +150,37 @@ impl methods::Search for Client {
 }
 
 impl methods::Statuses for Client {
-    fn fetch_status(&self, status_id: usize) -> Result<entities::Status, &str> {
+    fn fetch_status(&self, status_id: StatusID) -> Result<entities::Status, &str> {
         unimplemented!()
     }
-    fn get_status_context(&self, status_id: usize) -> Result<entities::Status, &str> {
+    fn get_status_context(&self, status_id: StatusID) -> Result<entities::Status, &str> {
         unimplemented!()
     }
-    fn get_status_card(&self, status_id: usize) -> Result<entities::Card, &str> {
+    fn get_status_card(&self, status_id: StatusID) -> Result<entities::Card, &str> {
         unimplemented!()
     }
-    fn reblogged_by(&self, status_id: usize) -> Result<Vec<entities::Account>, &str> {
+    fn reblogged_by(&self, status_id: StatusID) -> Result<Vec<entities::Account>, &str> {
         unimplemented!()
     }
-    fn favourited_by(&self, status_id: usize) -> Result<Vec<entities::Account>, &str> {
+    fn favourited_by(&self, status_id: StatusID) -> Result<Vec<entities::Account>, &str> {
         unimplemented!()
     }
     fn post_status(&self, form_data: String) -> Result<entities::Status, &str> {
         unimplemented!()
     }
-    fn delete_status(&self, status_id: usize) -> Result<(), &str> {
+    fn delete_status(&self, status_id: StatusID) -> Result<(), &str> {
         unimplemented!()
     }
-    fn reblog_status(&self, status_id: usize) -> Result<entities::Status, &str> {
+    fn reblog_status(&self, status_id: StatusID) -> Result<entities::Status, &str> {
         unimplemented!()
     }
-    fn unreblog_status(&self, status_id: usize) -> Result<entities::Status, &str> {
+    fn unreblog_status(&self, status_id: StatusID) -> Result<entities::Status, &str> {
         unimplemented!()
     }
-    fn favourite_status(&self, status_id: usize) -> Result<entities::Status, &str> {
+    fn favourite_status(&self, status_id: StatusID) -> Result<entities::Status, &str> {
         unimplemented!()
     }
-    fn unfavourite_status(&self, status_id: usize) -> Result<entities::Status, &str> {
+    fn unfavourite_status(&self, status_id: StatusID) -> Result<entities::Status, &str> {
         unimplemented!()
     }
 }

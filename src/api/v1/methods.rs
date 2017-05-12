@@ -30,6 +30,18 @@ pub struct AccountID {
     pub id: usize
 }
 
+/// Notification ID.
+#[derive(Debug, PartialEq)]
+pub struct NotificationID {
+    pub id: usize
+}
+
+/// Status ID.
+#[derive(Debug, PartialEq)]
+pub struct StatusID {
+    pub id: usize
+}
+
 /// Methods for interacting with accounts on a Mastodon node.
 pub trait Accounts {
     /// Fetching an account:
@@ -388,7 +400,7 @@ pub trait Notifications {
     /// ```
     ///
     /// Returns the `Notification`
-    fn get_notification(&self, notification_id: usize) -> Result<entities::Notification, &str>;
+    fn get_notification(&self, notification_id: NotificationID) -> Result<entities::Notification, &str>;
 
     /// Clearing notifications:
     ///
@@ -461,7 +473,7 @@ pub trait Statuses {
     /// Returns a `Status`.
     ///
     /// Does not require authentication.
-    fn fetch_status(&self, status_id: usize) -> Result<entities::Status, &str>;
+    fn fetch_status(&self, status_id: StatusID) -> Result<entities::Status, &str>;
 
     /// Getting status context:
     ///
@@ -472,7 +484,7 @@ pub trait Statuses {
     /// Returns a `Context`.
     ///
     /// Does not require authentication.
-    fn get_status_context(&self, status_id: usize) -> Result<entities::Status, &str>;
+    fn get_status_context(&self, status_id: StatusID) -> Result<entities::Status, &str>;
 
     /// Getting a card associated with a status:
     ///
@@ -483,7 +495,7 @@ pub trait Statuses {
     /// Returns a `Card`.
     ///
     /// Does not require authentication.
-    fn get_status_card(&self, status_id: usize) -> Result<entities::Card, &str>;
+    fn get_status_card(&self, status_id: StatusID) -> Result<entities::Card, &str>;
 
 
     /// Getting who reblogged a status:
@@ -503,7 +515,7 @@ pub trait Statuses {
     /// Returns an array of `Account`s.
     ///
     /// Does not require authentication.
-    fn reblogged_by(&self, status_id: usize) -> Result<Vec<entities::Account>, &str>;
+    fn reblogged_by(&self, status_id: StatusID) -> Result<Vec<entities::Account>, &str>;
 
     /// Getting who favourited a status:
     ///
@@ -522,7 +534,7 @@ pub trait Statuses {
     /// Returns an array of `Account`s.
     ///
     /// Does not require authentication.
-    fn favourited_by(&self, status_id: usize) -> Result<Vec<entities::Account>, &str>;
+    fn favourited_by(&self, status_id: StatusID) -> Result<Vec<entities::Account>, &str>;
 
     /// Posting a new status:
     ///
@@ -548,7 +560,7 @@ pub trait Statuses {
     /// ```
     ///
     /// Returns an empty object.
-    fn delete_status(&self, status_id: usize) -> Result<(), &str>;
+    fn delete_status(&self, status_id: StatusID) -> Result<(), &str>;
 
     /// Reblogging a status:
     ///
@@ -557,7 +569,7 @@ pub trait Statuses {
     /// ```
     ///
     /// Returns the target Status.
-    fn reblog_status(&self, status_id: usize) -> Result<entities::Status, &str>;
+    fn reblog_status(&self, status_id: StatusID) -> Result<entities::Status, &str>;
 
     /// Unreblogging a status:
     ///
@@ -566,7 +578,7 @@ pub trait Statuses {
     /// ```
     ///
     /// Returns the target Status.
-    fn unreblog_status(&self, status_id: usize) -> Result<entities::Status, &str>;
+    fn unreblog_status(&self, status_id: StatusID) -> Result<entities::Status, &str>;
 
     /// Favouriting/unfavouriting a status:
     ///
@@ -575,7 +587,7 @@ pub trait Statuses {
     /// ```
     ///
     /// Returns the target Status.
-    fn favourite_status(&self, status_id: usize) -> Result<entities::Status, &str>;
+    fn favourite_status(&self, status_id: StatusID) -> Result<entities::Status, &str>;
 
     /// Favouriting/unfavouriting a status:
     ///
@@ -584,7 +596,7 @@ pub trait Statuses {
     /// ```
     ///
     /// Returns the target Status.
-    fn unfavourite_status(&self, status_id: usize) -> Result<entities::Status, &str>;
+    fn unfavourite_status(&self, status_id: StatusID) -> Result<entities::Status, &str>;
 }
 
 pub trait Timelines {
