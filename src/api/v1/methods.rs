@@ -2,6 +2,7 @@
 //!
 
 use api::oauth::OAuthApp;
+use errors::*;
 use super::entities;
 
 /// updatable fields for the authenticated user.
@@ -84,7 +85,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns an `Account`.
-    fn fetch_account(&self, account_id: AccountID) -> Result<entities::Account, &str>;
+    fn fetch_account(&self, account_id: AccountID) -> Result<entities::Account>;
 
     /// Getting the current user:
     ///
@@ -93,7 +94,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the authenticated user's `Account`.
-    fn get_current_user(&self) -> Result<entities::Account, &str>;
+    fn get_current_user(&self) -> Result<entities::Account>;
 
     /// Updating the current user:
     ///
@@ -102,7 +103,7 @@ pub trait Accounts {
     /// ```
     ///
     /// `UserFormData` form data is required.
-    fn update_current_user(&self, form_data: UserFormData) -> Result<entities::Account, &str>;
+    fn update_current_user(&self, form_data: UserFormData) -> Result<entities::Account>;
 
     /// Getting an account's followers:
     ///
@@ -118,7 +119,7 @@ pub trait Accounts {
     /// `limit` Maximum number of followers to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Account`s.
-    fn get_account_followers(&self, account_id: AccountID) -> Result<Vec<entities::Account>, &str>;
+    fn get_account_followers(&self, account_id: AccountID) -> Result<Vec<entities::Account>>;
 
     /// Get who account is following:
     ///
@@ -135,7 +136,7 @@ pub trait Accounts {
     /// `limit` Maximum number of followers to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Account`s.
-    fn get_account_following(&self, account_id: AccountID) -> Result<Vec<entities::Account>, &str>;
+    fn get_account_following(&self, account_id: AccountID) -> Result<Vec<entities::Account>>;
 
     /// Get an account's statuses:
     ///
@@ -156,7 +157,7 @@ pub trait Accounts {
     /// `limit` Maximum number of statutes to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Status`es.
-    fn get_account_statutes(&self, account_id: AccountID) -> Result<Vec<entities::Status>, &str>;
+    fn get_account_statutes(&self, account_id: AccountID) -> Result<Vec<entities::Status>>;
 
     /// Following an account:
     ///
@@ -165,7 +166,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn follow_account(&self, account_id: AccountID) -> Result<entities::Relationship, &str>;
+    fn follow_account(&self, account_id: AccountID) -> Result<entities::Relationship>;
 
     /// Unfollowing an account:
     ///
@@ -174,7 +175,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn unfollow_account(&self, account_id: AccountID) -> Result<entities::Relationship, &str>;
+    fn unfollow_account(&self, account_id: AccountID) -> Result<entities::Relationship>;
 
     /// Blocking an account:
     ///
@@ -183,7 +184,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn block_account(&self, account_id: AccountID) -> Result<Vec<entities::Account>, &str>;
+    fn block_account(&self, account_id: AccountID) -> Result<Vec<entities::Account>>;
 
     /// Unblocking an account:
     ///
@@ -192,7 +193,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn unblock_account(&self, account_id: AccountID) -> Result<Vec<entities::Account>, &str>;
+    fn unblock_account(&self, account_id: AccountID) -> Result<Vec<entities::Account>>;
 
     /// Muting an account:
     ///
@@ -201,7 +202,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn mute_account(&self, account_id: AccountID) -> Result<entities::Relationship, &str>;
+    fn mute_account(&self, account_id: AccountID) -> Result<entities::Relationship>;
 
     /// Unmuting an account:
     ///
@@ -210,7 +211,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn unmute_account(&self, account_id: AccountID) -> Result<entities::Relationship, &str>;
+    fn unmute_account(&self, account_id: AccountID) -> Result<entities::Relationship>;
 
     /// Getting an account's relationships:
     ///
@@ -223,7 +224,7 @@ pub trait Accounts {
     /// `id` Account IDs (can be an array). It is required.
     ///
     /// Returns an array of `Relationship`s of the current user to a list of given accounts.
-    fn get_account_relationships(&self, account_id: AccountID) -> Result<Vec<entities::Relationship>, &str>;
+    fn get_account_relationships(&self, account_id: AccountID) -> Result<Vec<entities::Relationship>>;
 
     /// Searching for accounts:
     ///
@@ -241,7 +242,7 @@ pub trait Accounts {
     ///
     /// Will lookup an account remotely if the search term is in the `username@domain` format and
     /// not yet in the database.
-    fn search_accounts(&self, query: SearchAccountsQuery) -> Result<Vec<entities::Account>, &str>;
+    fn search_accounts(&self, query: SearchAccountsQuery) -> Result<Vec<entities::Account>>;
 }
 
 pub trait Apps {
@@ -282,7 +283,7 @@ pub trait Blocks {
     /// `limit` Maximum number of blocks to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Account`s blocked by the authenticated user.
-    fn fetch_blocks(&self, query: String) -> Result<Vec<entities::Account>, &str>;
+    fn fetch_blocks(&self, query: String) -> Result<Vec<entities::Account>>;
 }
 pub trait Favourites {
     /// Fetching a user's favourites:
@@ -299,7 +300,7 @@ pub trait Favourites {
     /// `limit` Maximum number of favourites to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Account`s favourited by the authenticated user.
-    fn fetch_favourites(&self, query: String) -> Result<Vec<entities::Account>, &str>;
+    fn fetch_favourites(&self, query: String) -> Result<Vec<entities::Account>>;
 }
 
 pub trait FollowRequests {
@@ -317,7 +318,7 @@ pub trait FollowRequests {
     /// `limit` Maximum number of follow requests to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Account`s which have requested to follow the authenticated user.
-    fn fetch_follow_requests(&self, query: String) -> Result<Vec<entities::Account>, &str>;
+    fn fetch_follow_requests(&self, query: String) -> Result<Vec<entities::Account>>;
 
     /// Authorizing follow requests
     ///
@@ -330,7 +331,7 @@ pub trait FollowRequests {
     /// `id` The id of the account to authorize. It is required.
     ///
     /// Returns an empty object.
-    fn authorize_follow_request(&self, form_data: String) -> Result<(), &str>;
+    fn authorize_follow_request(&self, form_data: String) -> Result<()>;
 
     /// Rejecting follow requests
     ///
@@ -343,7 +344,7 @@ pub trait FollowRequests {
     /// `id` The id of the account to authorize. It is required.
     ///
     /// Returns an empty object.
-    fn reject_follow_request(&self, form_data: String) -> Result<(), &str>;
+    fn reject_follow_request(&self, form_data: String) -> Result<()>;
 }
 
 pub trait Follows {
@@ -358,7 +359,7 @@ pub trait Follows {
     /// `uri` `username@domain` of the person you want to follow. It is required.
     ///
     /// Returns the local representation of the followed `Account`.
-    fn follow_remote_user(&self, form_data: String) -> Result<entities::Account, &str>;
+    fn follow_remote_user(&self, form_data: String) -> Result<entities::Account>;
 }
 
 pub trait Instances {
@@ -371,7 +372,7 @@ pub trait Instances {
     /// Returns the current `Instance`.
     ///
     /// Does not require authentication.
-    fn get_instance(&self) -> Result<entities::Instance, &str>;
+    fn get_instance(&self) -> Result<entities::Instance>;
 }
 
 pub trait Media {
@@ -386,7 +387,7 @@ pub trait Media {
     /// `file` Media to be uploaded. It is required.
     ///
     /// Returns an `Attachment`that can be used when creating a status.
-    fn upload_media(&self, form_data: String) -> Result<entities::Attachment, &str>;
+    fn upload_media(&self, form_data: String) -> Result<entities::Attachment>;
 }
 
 pub trait Mutes {
@@ -405,7 +406,7 @@ pub trait Mutes {
     /// `limit` Maximum number of mutes to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Account`s muted by the authenticated user.
-    fn fetch_mutes(&self, query: String) -> Result<Vec<entities::Account>, &str>;
+    fn fetch_mutes(&self, query: String) -> Result<Vec<entities::Account>>;
 }
 
 pub trait Notifications {
@@ -424,7 +425,7 @@ pub trait Notifications {
     /// `limit` Maximum number of notifications to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Notification`s for the authenticated user.
-    fn fetch_notifications(&self, query: String) -> Result<Vec<entities::Notification>, &str>;
+    fn fetch_notifications(&self, query: String) -> Result<Vec<entities::Notification>>;
 
     /// Getting a single notification:
     ///
@@ -433,7 +434,7 @@ pub trait Notifications {
     /// ```
     ///
     /// Returns the `Notification`
-    fn get_notification(&self, notification_id: NotificationID) -> Result<entities::Notification, &str>;
+    fn get_notification(&self, notification_id: NotificationID) -> Result<entities::Notification>;
 
     /// Clearing notifications:
     ///
@@ -443,7 +444,7 @@ pub trait Notifications {
     ///
     /// Deletes all notifications from the Mastodon server for the authenticated user. Returns an
     /// empty object.
-    fn clear_notifications(&self) -> Result<(), &str>;
+    fn clear_notifications(&self) -> Result<()>;
 }
 
 pub trait Reports {
@@ -454,7 +455,7 @@ pub trait Reports {
     /// ```
     ///
     /// Returns a list of `Report`s made by the authenticated user..
-    fn fetching_reports(&self) -> Result<Vec<entities::Report>, &str>;
+    fn fetching_reports(&self) -> Result<Vec<entities::Report>>;
 
     /// Reporting a user:
     ///
@@ -471,7 +472,7 @@ pub trait Reports {
     /// `comment` A comment to associate with the report. It is required.
     ///
     /// Returns the finished `Report`.
-    fn reporting_user(&self, form_data: String) -> Result<entities::Report, &str>;
+    fn reporting_user(&self, form_data: String) -> Result<entities::Report>;
 }
 
 pub trait Search {
@@ -493,7 +494,7 @@ pub trait Search {
     /// it will do a local account and hashtag search.
     ///
     /// Does not require authentication.
-    fn search_content(&self, query: SearchContentsQuery) -> Result<entities::Results, &str>;
+    fn search_content(&self, query: SearchContentsQuery) -> Result<entities::Results>;
 }
 
 pub trait Statuses {
@@ -506,7 +507,7 @@ pub trait Statuses {
     /// Returns a `Status`.
     ///
     /// Does not require authentication.
-    fn fetch_status(&self, status_id: StatusID) -> Result<entities::Status, &str>;
+    fn fetch_status(&self, status_id: StatusID) -> Result<entities::Status>;
 
     /// Getting status context:
     ///
@@ -517,7 +518,7 @@ pub trait Statuses {
     /// Returns a `Context`.
     ///
     /// Does not require authentication.
-    fn get_status_context(&self, status_id: StatusID) -> Result<entities::Status, &str>;
+    fn get_status_context(&self, status_id: StatusID) -> Result<entities::Status>;
 
     /// Getting a card associated with a status:
     ///
@@ -528,7 +529,7 @@ pub trait Statuses {
     /// Returns a `Card`.
     ///
     /// Does not require authentication.
-    fn get_status_card(&self, status_id: StatusID) -> Result<entities::Card, &str>;
+    fn get_status_card(&self, status_id: StatusID) -> Result<entities::Card>;
 
 
     /// Getting who reblogged a status:
@@ -548,7 +549,7 @@ pub trait Statuses {
     /// Returns an array of `Account`s.
     ///
     /// Does not require authentication.
-    fn reblogged_by(&self, status_id: StatusID) -> Result<Vec<entities::Account>, &str>;
+    fn reblogged_by(&self, status_id: StatusID) -> Result<Vec<entities::Account>>;
 
     /// Getting who favourited a status:
     ///
@@ -567,7 +568,7 @@ pub trait Statuses {
     /// Returns an array of `Account`s.
     ///
     /// Does not require authentication.
-    fn favourited_by(&self, status_id: StatusID) -> Result<Vec<entities::Account>, &str>;
+    fn favourited_by(&self, status_id: StatusID) -> Result<Vec<entities::Account>>;
 
     /// Posting a new status:
     ///
@@ -584,7 +585,7 @@ pub trait Statuses {
     /// `visibility`  Either "direct", "private", "unlisted" or "public". It is optional.
     ///
     /// Returns the new `Status`.
-    fn post_status(&self, form_data: String) -> Result<entities::Status, &str>;
+    fn post_status(&self, form_data: String) -> Result<entities::Status>;
 
     /// Deleting a status:
     ///
@@ -593,7 +594,7 @@ pub trait Statuses {
     /// ```
     ///
     /// Returns an empty object.
-    fn delete_status(&self, status_id: StatusID) -> Result<(), &str>;
+    fn delete_status(&self, status_id: StatusID) -> Result<()>;
 
     /// Reblogging a status:
     ///
@@ -602,7 +603,7 @@ pub trait Statuses {
     /// ```
     ///
     /// Returns the target Status.
-    fn reblog_status(&self, status_id: StatusID) -> Result<entities::Status, &str>;
+    fn reblog_status(&self, status_id: StatusID) -> Result<entities::Status>;
 
     /// Unreblogging a status:
     ///
@@ -611,7 +612,7 @@ pub trait Statuses {
     /// ```
     ///
     /// Returns the target Status.
-    fn unreblog_status(&self, status_id: StatusID) -> Result<entities::Status, &str>;
+    fn unreblog_status(&self, status_id: StatusID) -> Result<entities::Status>;
 
     /// Favouriting/unfavouriting a status:
     ///
@@ -620,7 +621,7 @@ pub trait Statuses {
     /// ```
     ///
     /// Returns the target Status.
-    fn favourite_status(&self, status_id: StatusID) -> Result<entities::Status, &str>;
+    fn favourite_status(&self, status_id: StatusID) -> Result<entities::Status>;
 
     /// Favouriting/unfavouriting a status:
     ///
@@ -629,7 +630,7 @@ pub trait Statuses {
     /// ```
     ///
     /// Returns the target Status.
-    fn unfavourite_status(&self, status_id: StatusID) -> Result<entities::Status, &str>;
+    fn unfavourite_status(&self, status_id: StatusID) -> Result<entities::Status>;
 }
 
 pub trait Timelines {
@@ -649,7 +650,7 @@ pub trait Timelines {
     /// It is optional.
     ///
     /// Returns an array of `Status`es, most recent ones first.
-    fn home_timeline(&self, query: HomeTimelineQuery) -> Result<Vec<entities::Status>, &str>;
+    fn home_timeline(&self, query: HomeTimelineQuery) -> Result<Vec<entities::Status>>;
 
     /// Retrieving a public timeline:
     ///
@@ -671,7 +672,7 @@ pub trait Timelines {
     /// Returns an array of `Status`es, most recent ones first.
     ///
     /// Does not require authentication.
-    fn public_timeline(&self, query: TimelineQuery) -> Result<Vec<entities::Status>, &str>;
+    fn public_timeline(&self, query: TimelineQuery) -> Result<Vec<entities::Status>>;
 
     /// Retrieving a timeline:
     ///
@@ -693,5 +694,5 @@ pub trait Timelines {
     /// Returns an array of `Status`es, most recent ones first.
     ///
     /// Does not require authentication.
-    fn tag_timeline(&self, hashtag: TagID, query: TimelineQuery) -> Result<Vec<entities::Status>, &str>;
+    fn tag_timeline(&self, hashtag: TagID, query: TimelineQuery) -> Result<Vec<entities::Status>>;
 }
