@@ -10,8 +10,14 @@ extern crate tokio_core;
 extern crate url;
 
 #[macro_use] extern crate serde_derive;
+#[macro_use] extern crate error_chain;
 
 pub mod api;
 pub mod client;
+pub mod errors {
+    //! Setup `error-chain`
+    error_chain!{}
+}
 
 pub use client::{Client, Mastodon};
+pub use errors::*;
