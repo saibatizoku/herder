@@ -60,11 +60,11 @@ pub trait Accounts {
     /// ```
     /// Query parameters:
     ///
-    /// `max_id`   | Get a list of followers with ID less than or equal this value. It's optional.
+    /// `max_id` Get a list of followers with ID less than or equal this value. It is optional.
     ///
-    /// `since_id` | Get a list of followers with ID greater than this value. It's optional.
+    /// `since_id` Get a list of followers with ID greater than this value. It is optional.
     ///
-    /// `limit`    | Maximum number of followers to get (Default 40, Max 80). It's optional.
+    /// `limit` Maximum number of followers to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Account`s.
     fn get_account_followers(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
@@ -77,11 +77,11 @@ pub trait Accounts {
     ///
     /// Query parameters:
     ///
-    /// `max_id`   | Get a list of followers with ID less than or equal this value. It's optional.
+    /// `max_id` Get a list of followers with ID less than or equal this value. It is optional.
     ///
-    /// `since_id` | Get a list of followers with ID greater than this value. It's optional.
+    /// `since_id` Get a list of followers with ID greater than this value. It is optional.
     ///
-    /// `limit`    | Maximum number of followers to get (Default 40, Max 80). It's optional.
+    /// `limit` Maximum number of followers to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Account`s.
     fn get_account_following(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
@@ -94,29 +94,84 @@ pub trait Accounts {
     ///
     /// Query parameters:
     ///
-    /// `only_media`      | Only return statuses that have media attachments. It's optional.
+    /// `only_media` Only return statuses that have media attachments. It is optional.
     ///
-    /// `exclude_replies` | Skip statuses that reply to other statuses. It's optional.
+    /// `exclude_replies` Skip statuses that reply to other statuses. It is optional.
     ///
-    /// `max_id`          | Get a list of statutes with ID less than or equal this value. It's optional.
+    /// `max_id` Get a list of statutes with ID less than or equal this value. It is optional.
     ///
-    /// `since_id`        | Get a list of statutes with ID greater than this value. It's optional.
+    /// `since_id` Get a list of statutes with ID greater than this value. It is optional.
     ///
-    /// `limit`           | Maximum number of statutes to get (Default 40, Max 80). It's optional.
+    /// `limit` Maximum number of statutes to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Status`es.
     fn get_account_statutes(&self, account_id: usize) -> Result<Vec<entities::Status>, &str>;
 
+    /// Following an account:
+    ///
+    /// ```
+    /// POST /api/v1/accounts/:account_id/follow
+    /// ```
+    ///
+    /// Returns the target account's `Relationship`.
     fn follow_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
 
+    /// Unfollowing an account:
+    ///
+    /// ```
+    /// POST /api/v1/accounts/:account_id/unfollow
+    /// ```
+    ///
+    /// Returns the target account's `Relationship`.
     fn unfollow_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
 
+    /// Muting an account:
+    ///
+    /// ```
+    /// POST /api/v1/accounts/:account_id/mute
+    /// ```
+    ///
+    /// Returns the target account's `Relationship`.
     fn mute_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
 
+    /// Unmuting an account:
+    ///
+    /// ```
+    /// POST /api/v1/accounts/:account_id/unmute
+    /// ```
+    ///
+    /// Returns the target account's `Relationship`.
     fn unmute_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
 
+    /// Getting an account's relationships:
+    ///
+    /// ```
+    /// GET /api/v1/accounts/relationships
+    /// ```
+    ///
+    /// Query parameters:
+    ///
+    /// `id` Account IDs (can be an array). It is required.
+    ///
+    /// Returns an array of `Relationship`s of the current user to a list of given accounts.
     fn get_account_relationships(&self, account_id: usize) -> Result<Vec<entities::Relationship>, &str>;
 
+    /// Searching for accounts:
+    ///
+    /// ```
+    /// GET /api/v1/accounts/search
+    /// ```
+    ///
+    /// Query parameters:
+    ///
+    /// `q` What to search for. It is required.
+    ///
+    /// `limit` Maximum number of matching accounts to return (default: `40`). It is optional.
+    ///
+    /// Returns an array of matching `Account`s.
+    ///
+    /// Will lookup an account remotely if the search term is in the `username@domain` format and
+    /// not yet in the database.
     fn search_accounts(&self, search_query: String) -> Result<Vec<entities::Account>, &str>;
 }
 
