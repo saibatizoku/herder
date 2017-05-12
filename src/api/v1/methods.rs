@@ -24,6 +24,12 @@ impl UserFormData {
     }
 }
 
+/// Account ID.
+#[derive(Debug, PartialEq)]
+pub struct AccountID {
+    pub id: usize
+}
+
 /// Methods for interacting with accounts on a Mastodon node.
 pub trait Accounts {
     /// Fetching an account:
@@ -33,7 +39,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns an `Account`.
-    fn fetch_account(&self, account_id: usize) -> Result<entities::Account, &str>;
+    fn fetch_account(&self, account_id: AccountID) -> Result<entities::Account, &str>;
 
     /// Getting the current user:
     ///
@@ -67,7 +73,7 @@ pub trait Accounts {
     /// `limit` Maximum number of followers to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Account`s.
-    fn get_account_followers(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+    fn get_account_followers(&self, account_id: AccountID) -> Result<Vec<entities::Account>, &str>;
 
     /// Get who account is following:
     ///
@@ -84,7 +90,7 @@ pub trait Accounts {
     /// `limit` Maximum number of followers to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Account`s.
-    fn get_account_following(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+    fn get_account_following(&self, account_id: AccountID) -> Result<Vec<entities::Account>, &str>;
 
     /// Get an account's statuses:
     ///
@@ -105,7 +111,7 @@ pub trait Accounts {
     /// `limit` Maximum number of statutes to get (Default 40, Max 80). It is optional.
     ///
     /// Returns an array of `Status`es.
-    fn get_account_statutes(&self, account_id: usize) -> Result<Vec<entities::Status>, &str>;
+    fn get_account_statutes(&self, account_id: AccountID) -> Result<Vec<entities::Status>, &str>;
 
     /// Following an account:
     ///
@@ -114,7 +120,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn follow_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
+    fn follow_account(&self, account_id: AccountID) -> Result<entities::Relationship, &str>;
 
     /// Unfollowing an account:
     ///
@@ -123,7 +129,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn unfollow_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
+    fn unfollow_account(&self, account_id: AccountID) -> Result<entities::Relationship, &str>;
 
     /// Blocking an account:
     ///
@@ -132,7 +138,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn block_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+    fn block_account(&self, account_id: AccountID) -> Result<Vec<entities::Account>, &str>;
 
     /// Unblocking an account:
     ///
@@ -141,7 +147,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn unblock_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+    fn unblock_account(&self, account_id: AccountID) -> Result<Vec<entities::Account>, &str>;
 
     /// Muting an account:
     ///
@@ -150,7 +156,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn mute_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
+    fn mute_account(&self, account_id: AccountID) -> Result<entities::Relationship, &str>;
 
     /// Unmuting an account:
     ///
@@ -159,7 +165,7 @@ pub trait Accounts {
     /// ```
     ///
     /// Returns the target account's `Relationship`.
-    fn unmute_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
+    fn unmute_account(&self, account_id: AccountID) -> Result<entities::Relationship, &str>;
 
     /// Getting an account's relationships:
     ///
@@ -172,7 +178,7 @@ pub trait Accounts {
     /// `id` Account IDs (can be an array). It is required.
     ///
     /// Returns an array of `Relationship`s of the current user to a list of given accounts.
-    fn get_account_relationships(&self, account_id: usize) -> Result<Vec<entities::Relationship>, &str>;
+    fn get_account_relationships(&self, account_id: AccountID) -> Result<Vec<entities::Relationship>, &str>;
 
     /// Searching for accounts:
     ///
