@@ -125,6 +125,24 @@ pub trait Accounts {
     /// Returns the target account's `Relationship`.
     fn unfollow_account(&self, account_id: usize) -> Result<entities::Relationship, &str>;
 
+    /// Blocking an account:
+    ///
+    /// ```
+    /// POST /api/v1/accounts/:account_id/block
+    /// ```
+    ///
+    /// Returns the target account's `Relationship`.
+    fn block_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+
+    /// Unblocking an account:
+    ///
+    /// ```
+    /// POST /api/v1/accounts/:account_id/unblock
+    /// ```
+    ///
+    /// Returns the target account's `Relationship`.
+    fn unblock_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+
     /// Muting an account:
     ///
     /// ```
@@ -172,23 +190,109 @@ pub trait Accounts {
     ///
     /// Will lookup an account remotely if the search term is in the `username@domain` format and
     /// not yet in the database.
-    fn search_accounts(&self, search_query: String) -> Result<Vec<entities::Account>, &str>;
+    fn search_accounts(&self, query: String) -> Result<Vec<entities::Account>, &str>;
 }
 
 pub trait Apps {
+    /// Registering an application:
+    ///
+    /// ```
+    /// POST /api/v1/apps
+    /// ```
+    ///
+    /// Form data:
+    ///
+    /// `client_name` Name of your application. It is required.
+    ///
+    /// `redirect_uris` Where the user should be redirected after authorization (for no redirect,
+    ///                 use `urn:ietf:wg:oauth:2.0:oob`. It is required.
+    ///
+    /// `scopes` This can be space-separated list of the following items "read", "write" and
+    ///          "follow". It is required.
+    ///
+    /// `website` URL to the homepage of your app. It is optional.
+    ///
+    /// Creates and returns a new `OAuthApp`.
     fn register_app(&self, name: &str, uris: &str, scopes: &str) -> OAuthApp;
 }
 
 pub trait Blocks {
-    fn block_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
-    fn unblock_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+    /// Fetching a user's blocks:
+    ///
+    /// ```
+    /// GET /api/v1/blocks
+    /// ```
+    /// Query parameters:
+    ///
+    /// `max_id` Get a list of blocks with ID less than or equal this value. It is optional.
+    ///
+    /// `since_id` Get a list of blocks with ID greater than this value. It is optional.
+    ///
+    /// `limit` Maximum number of blocks to get (Default 40, Max 80). It is optional.
+    ///
+    /// Returns an array of `Account`s blocked by the authenticated user.
+    fn fetch_blocks(&self, query: String) -> Result<Vec<entities::Account>, &str>;
 }
 pub trait Favourites {
-    fn favourite_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
-    fn unfavourite_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str>;
+    /// Fetching a user's favourites:
+    ///
+    /// ```
+    /// GET /api/v1/favourites
+    /// ```
+    /// Query parameters:
+    ///
+    /// `max_id` Get a list of favourites with ID less than or equal this value. It is optional.
+    ///
+    /// `since_id` Get a list of favourites with ID greater than this value. It is optional.
+    ///
+    /// `limit` Maximum number of favourites to get (Default 40, Max 80). It is optional.
+    ///
+    /// Returns an array of `Account`s favourited by the authenticated user.
+    fn fetch_favourites(&self, query: String) -> Result<Vec<entities::Account>, &str>;
 }
 
 pub trait FollowRequests {
+    /// Fetching a list of follow requests:
+    ///
+    /// ```
+    /// GET /api/v1/follow_requests
+    /// ```
+    /// Query parameters:
+    ///
+    /// `max_id` Get a list of follow requests with ID less than or equal this value. It is optional.
+    ///
+    /// `since_id` Get a list of follow requests with ID greater than this value. It is optional.
+    ///
+    /// `limit` Maximum number of follow requests to get (Default 40, Max 80). It is optional.
+    ///
+    /// Returns an array of `Account`s which have requested to follow the authenticated user.
+    fn fetch_follow_requests(&self, query: String) -> Result<Vec<entities::Account>, &str>;
+
+    /// Authorizing follow requests
+    ///
+    /// ```
+    /// POST /api/v1/follow_requests/:account_id/authorize
+    /// ```
+    ///
+    /// Parameters:
+    ///
+    /// `id` The id of the account to authorize. It is required.
+    ///
+    /// Returns an empty object.
+    fn authorize_follow_request(&self, form_data: String) -> Result<(), &str>;
+
+    /// Rejecting follow requests
+    ///
+    /// ```
+    /// POST /api/v1/follow_requests/:account_id/reject
+    /// ```
+    ///
+    /// Parameters:
+    ///
+    /// `id` The id of the account to authorize. It is required.
+    ///
+    /// Returns an empty object.
+    fn reject_follow_request(&self, form_data: String) -> Result<(), &str>;
 }
 
 pub trait Follows {

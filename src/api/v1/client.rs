@@ -55,6 +55,12 @@ impl methods::Accounts for Client {
     fn unfollow_account(&self, account_id: usize) -> Result<entities::Relationship, &str> {
         unimplemented!()
     }
+    fn block_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
+        unimplemented!()
+    }
+    fn unblock_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
+        unimplemented!()
+    }
     fn mute_account(&self, account_id: usize) -> Result<entities::Relationship, &str> {
         unimplemented!()
     }
@@ -69,22 +75,25 @@ impl methods::Accounts for Client {
     }
 }
 impl methods::Blocks for Client {
-    fn block_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
-        unimplemented!()
-    }
-    fn unblock_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
+    fn fetch_blocks(&self, query: String) -> Result<Vec<entities::Account>, &str> {
         unimplemented!()
     }
 }
 impl methods::Favourites for Client {
-    fn favourite_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
-        unimplemented!()
-    }
-    fn unfavourite_account(&self, account_id: usize) -> Result<Vec<entities::Account>, &str> {
+    fn fetch_favourites(&self, query: String) -> Result<Vec<entities::Account>, &str> {
         unimplemented!()
     }
 }
 impl methods::FollowRequests for Client {
+    fn fetch_follow_requests(&self, query: String) -> Result<Vec<entities::Account>, &str> {
+        unimplemented!()
+    }
+    fn authorize_follow_request(&self, form_data: String) -> Result<(), &str> {
+        unimplemented!()
+    }
+    fn reject_follow_request(&self, form_data: String) -> Result<(), &str> {
+        unimplemented!()
+    }
 }
 
 impl methods::Follows for Client {
