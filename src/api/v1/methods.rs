@@ -24,6 +24,7 @@ impl UserFormData {
     }
 }
 
+/// Methods for interacting with accounts on a Mastodon node.
 pub trait Accounts {
     /// Fetching an account:
     ///

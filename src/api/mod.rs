@@ -5,7 +5,7 @@ use hyper;
 pub mod v1;
 pub mod oauth;
 
-/// constructor for HTTP requests to a `Mastodon` API.
+/// constructor of HTTPS requests, used in API Mehtods.
 ///
 #[derive(Debug, Default, PartialEq)]
 pub struct APIMethod {
