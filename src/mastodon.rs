@@ -16,7 +16,7 @@ pub struct Mastodon(pub Url);
 
 impl Mastodon {
     pub fn new(url: &str) -> Result<Mastodon> {
-        Ok(Mastodon(Url::parse(url).unwrap()))
+        Ok(Mastodon(Url::parse(url).chain_err(|| "Invalid URL")?))
     }
 
     pub fn url(&self) -> String {
