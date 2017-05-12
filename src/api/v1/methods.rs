@@ -1,7 +1,7 @@
 //! This module contains the Mastodon API Methods `/api/v1`.
 //!
 
-use oauth::OAuthApp;
+use api::oauth::OAuthApp;
 use super::entities;
 
 pub trait Accounts {

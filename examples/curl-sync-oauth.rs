@@ -7,7 +7,8 @@
 extern crate herder;
 extern crate serde_json;
 
-use herder::oauth::OAuthApp;
+use herder::api::oauth::OAuthApp;
+
 use std::fs::File;
 
 fn main() {

@@ -10,7 +10,7 @@ use std::sync::{Arc, Mutex};
 
 use curl::easy::{Easy, Form};
 use futures::{done, Future};
-use herder::oauth::OAuthApp;
+use herder::api::oauth::OAuthApp;
 use tokio_core::reactor::Core;
 use tokio_curl::Session;
 

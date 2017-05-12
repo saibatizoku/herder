@@ -4,7 +4,7 @@ extern crate serde_json;
 
 use clap::{Arg, App};
 use herder::Mastodon;
-use herder::oauth::OAuthApp;
+use herder::api::oauth::OAuthApp;
 
 use std::fs::File;
 
