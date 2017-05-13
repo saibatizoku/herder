@@ -47,9 +47,13 @@ fn run() -> Result<()> {
         .get_matches();
 
     let base_url = matches.value_of("url").unwrap_or("https://localhost:3000");
-    let mastodon = Mastodon::new(base_url).unwrap();
-    let oauth_app: OAuthApp = mastodon.register_app(CreateApp::new("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow")).unwrap();
+    let mastodon = Mastodon::new(base_url).chain_err(|| "invalid URL, could not create Mastodon")?;
+    let new_app: CreateApp = CreateApp::new("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow");
+    let oauth_app: OAuthApp = mastodon.register_app(new_app).chain_err(|| "registration of App failed.")?;
 
+    println!();
+    println!("Successfully registered our app on {}", base_url);
+    println!();
     println!("Run the following with `curl`:");
     println!();
     println!("curl -X POST -d 'client_id={}&client_secret={}&grant_type=password&username=YOUR_EMAIL&password=YOUR_PASSWORD' -Ss  {}/oauth/token", oauth_app.client_id, oauth_app.client_secret, base_url);
@@ -57,6 +61,7 @@ fn run() -> Result<()> {
     println!("to register this app on your Mastodon node. Replace `YOUR_EMAIL` and `YOUR_PASSWORD` with the appropriate values.");
     println!();
     println!("NOTE that your login credentials are being sent. This is not considered the best practice. Be careful and be warned!");
+    println!();
 
     if matches.is_present("json") {
         let path = matches.value_of("json").unwrap_or("output.json");
