@@ -1,15 +1,34 @@
+#![recursion_limit = "1024"]
 extern crate clap;
 extern crate herder;
 extern crate serde_json;
 
 use clap::{Arg, App};
 use herder::Mastodon;
+use herder::errors::*;
 use herder::mastodon::NodeInstance;
 use herder::api::oauth::{CreateApp, OAuthApp};
 
 use std::fs::File;
 
 fn main() {
+    if let Err(ref e) = run() {
+        println!("error: {}", e);
+
+        for e in e.iter().skip(1) {
+            println!("caused by: {}", e);
+        }
+
+        // The backtrace is not always generated. Try to run this example
+        // with `RUST_BACKTRACE=1`.
+        if let Some(backtrace) = e.backtrace() {
+            println!("backtrace: {:?}", backtrace);
+        }
+        ::std::process::exit(1);
+    }
+}
+
+fn run() -> Result<()> {
     let matches = App::new("Herder Mastodon API Client")
         .version("0.1.5")
         .author("saibatizoku")
@@ -47,4 +66,5 @@ fn main() {
         serde_json::to_writer(&mut out, &oauth_app).expect("Could not save OAuth to JSON File.");
         println!("JSON File '{}' saved.", path);
     }
+    Ok(())
 }
