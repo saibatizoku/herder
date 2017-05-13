@@ -1,7 +1,6 @@
 //! a library that provides asynchronous clients for Mastodon, a GNU-Social
 //! compatible microblogging service.
 //!
-//! `error_chain!` can recurse deeply
 #![recursion_limit = "1024"]
 extern crate curl;
 extern crate futures;

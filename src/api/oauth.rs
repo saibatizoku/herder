@@ -1,6 +1,7 @@
 //! This module contains the code for registering new OAuth Applications, such as our `Client`s.
 use curl::easy::{Easy, Form};
-use hyper::{Client, Body, Post, Error};
+use errors::*;
+use hyper::{Client, Body, Post, Uri};
 use hyper::client::Request;
 use hyper::header::ContentType;
 use hyper_tls::HttpsConnector;
@@ -9,6 +10,7 @@ use tokio_core::reactor::Core;
 use url::form_urlencoded;
 
 use std::fmt;
+use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 
 #[derive(Debug, Deserialize, PartialEq, Serialize)]
@@ -90,23 +92,26 @@ impl CreateApp {
         }
     }
 
-    pub fn register(&self, api_url: &str, dst: Arc<Mutex<Vec<u8>>>) -> Result<(), Error> {
-        let mut core = Core::new().unwrap();
+    pub fn register(&self, api_url: &str, dst: Arc<Mutex<Vec<u8>>>) -> Result<()> {
+        let mut core = Core::new().chain_err(|| "Could not start client reactor")?;
         let client = Client::configure()
             .connector(HttpsConnector::new(4, &core.handle()))
             .build(&core.handle());
 
-        let mut req: Request<Body> = Request::new(Post, api_url.parse().unwrap());
+        let url = Uri::from_str(api_url).chain_err(|| "Invalid URL")?;
+        let mut req: Request<Body> = Request::new(Post, url);
         req.headers_mut().set(ContentType::form_url_encoded());
         req.set_body(Body::from(self.form_encode()));
+
         let mut dst = dst.lock().unwrap();
-        let work = client.request(req).and_then(|res| {
-            res.body().for_each(|chunk| {
-                dst.extend_from_slice(&chunk);
-                Ok(())
-            })
-        });
-        core.run(work).expect("couldn't work");
+        let work = client.request(req)
+            .and_then(|res| {
+                res.body().for_each(|chunk| {
+                    dst.extend_from_slice(&chunk);
+                    Ok(())
+                })
+            });
+        core.run(work).chain_err(|| "couldn't work")?;
         Ok(())
     }
 

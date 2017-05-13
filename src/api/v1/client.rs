@@ -28,11 +28,11 @@ pub struct Client {
 }
 
 impl ApiHandler for Client {
-    fn endpoint_url(&self, path: &str) -> Url {
-        self.url_base.clone().join(path).unwrap()
+    fn endpoint_url(&self, path: &str) -> Result<Url> {
+        self.url_base.clone().join(path).chain_err(|| "could not join path with URL")
     }
     fn endpoint_url_string(&self, path: &str) -> String {
-        self.endpoint_url(path).into_string()
+        self.endpoint_url(path).unwrap().into_string()
     }
 }
 
