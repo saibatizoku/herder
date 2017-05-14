@@ -1,13 +1,13 @@
 //! This module contains the code representing Mastodon nodes and API Clients
 //!
-use serde_json;
-use url::Url;
-
 use api::Client;
 use api::oauth::{CreateApp, OAuthApp};
 use errors::*;
-
+use hyper::header::Bearer;
+use serde_json;
+use std::str::FromStr;
 use std::sync::{Arc, Mutex};
+use url::Url;
 
 /// `Mastodon` is used to specify the base url of a Mastodon node.
 /// Only HTTPS connections are supported.
@@ -36,7 +36,7 @@ impl NodeInstance for Mastodon {
     fn client(&self, token: &str) -> Result<Client> {
         Ok(Client {
             url_base: self.url().chain_err(|| "Could not set the base URL")?,
-            token: String::from(token)
+            token: Bearer::from_str(token).chain_err(|| "Could parse Bearer Token")?
         })
     }
     fn register_app(&self, app: CreateApp) -> Result<OAuthApp> {

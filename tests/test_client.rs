@@ -1,12 +1,15 @@
 extern crate herder;
+extern crate hyper;
 extern crate url;
 
 use herder::Client;
 use herder::Mastodon;
 use herder::mastodon::{NodeInstance, ApiHandler};
+use hyper::header::Bearer;
+use std::str::FromStr;
 use url::Url;
 
-const BASE_URL: &str = "http://localhost:3000/";
+const BASE_URL: &str = "http://localhost:3000";
 const MY_TOKEN: &str = "MY_TOKEN";
 
 #[test]
@@ -25,7 +28,7 @@ fn create_client_with_mastodon_domain() {
 #[test]
 fn create_client_with_bearer_token() {
     let Client { token, .. } = Mastodon::new(BASE_URL).unwrap().client(MY_TOKEN).unwrap();
-    assert_eq!(token, String::from(MY_TOKEN));
+    assert_eq!(token, Bearer::from_str(MY_TOKEN).unwrap());
 }
 
 // Testing of ApiHandler trait on Client

@@ -1,10 +1,8 @@
 //! This module contains the code representing Mastodon nodes and API Clients
 //!
-use url::Url;
-
-use errors::*;
-
 use api::APIMethod;
+use errors::*;
+use hyper::header::Bearer;
 use mastodon::ApiHandler;
 use super::entities;
 use super::methods;
@@ -19,12 +17,13 @@ use super::methods::{
     TimelineQuery,
     UserFormData
 };
+use url::Url;
 
 
 /// The API Client, currently works for version 1 of the Mastodon API.
 pub struct Client {
     pub url_base: Url,
-    pub token: String
+    pub token: Bearer
 }
 
 impl ApiHandler for Client {
