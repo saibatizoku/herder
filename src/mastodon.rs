@@ -36,7 +36,7 @@ impl NodeInstance for Mastodon {
     fn client(&self, token: &str) -> Result<Client> {
         Ok(Client {
             url_base: self.url().chain_err(|| "Could not set the base URL")?,
-            token: Bearer::from_str(token).chain_err(|| "Could parse Bearer Token")?
+            token: Bearer::from_str(token).chain_err(|| "Could not parse Bearer Token")?
         })
     }
     fn register_app(&self, app: CreateApp) -> Result<OAuthApp> {
