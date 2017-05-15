@@ -1,6 +1,6 @@
 //! This module contains the code representing Mastodon nodes and API Clients
 //!
-use api::Client;
+use Client;
 use api::oauth::{CreateApp, OAuthApp};
 use errors::*;
 use hyper::header::Bearer;

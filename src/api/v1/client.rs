@@ -2,8 +2,10 @@
 //!
 use api::APIMethod;
 use errors::*;
+use hyper::Uri;
 use hyper::header::Bearer;
 use mastodon::ApiHandler;
+use std::str::FromStr;
 use super::entities;
 use super::methods;
 use super::methods::{
@@ -38,8 +40,8 @@ impl ApiHandler for Client {
 impl methods::Accounts for Client {
     fn fetch_account(&self, account_id: AccountID) -> Result<entities::Account> {
         let api_method = APIMethod {
-            endpoint: format!("/api/v1/accounts/{}", account_id.id),
-            ..APIMethod::default()
+            uri: Uri::from_str(&format!("/api/v1/accounts/{}", account_id.id)).unwrap(),
+            ..APIMethodRequest::default()
         };
         println!("FETCH ACCOUNT: {:?}", api_method);
         Ok(entities::Account::default())
