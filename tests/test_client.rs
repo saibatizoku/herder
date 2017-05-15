@@ -20,21 +20,23 @@ fn mastodon_node_created() {
 
 #[test]
 fn create_client_with_mastodon_domain() {
-    let client = Mastodon::new(BASE_URL).unwrap().client(MY_TOKEN).unwrap();
-    let Client { url_base, .. } = client;
+    let mastodon = Mastodon::new(BASE_URL).unwrap();
+    let Client { url_base, .. } = mastodon.client(MY_TOKEN).unwrap();
     assert_eq!(url_base, Url::parse(BASE_URL).unwrap());
 }
 
 #[test]
 fn create_client_with_bearer_token() {
-    let Client { token, .. } = Mastodon::new(BASE_URL).unwrap().client(MY_TOKEN).unwrap();
+    let mastodon = Mastodon::new(BASE_URL).unwrap();
+    let Client { token, .. } = mastodon.client(MY_TOKEN).unwrap();
     assert_eq!(token, Bearer::from_str(MY_TOKEN).unwrap());
 }
 
 // Testing of ApiHandler trait on Client
 #[test]
 fn client_builds_api_endpoint_urls() {
-    let client = Mastodon::new(BASE_URL).unwrap().client(MY_TOKEN).unwrap();
+    let mastodon = Mastodon::new(BASE_URL).unwrap();
+    let client = mastodon.client(MY_TOKEN).unwrap();
     let api_endpoint = client.endpoint_url_string("/api/v1/");
     assert_eq!(api_endpoint, format!("{}/api/v1/", BASE_URL));
 }

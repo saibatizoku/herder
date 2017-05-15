@@ -1,6 +1,6 @@
 //! This module contains the code representing Mastodon nodes and API Clients
 //!
-use api::APIMethod;
+use api::APIMethodRequest;
 use errors::*;
 use hyper::Uri;
 use hyper::header::Bearer;
@@ -39,7 +39,7 @@ impl ApiHandler for Client {
 
 impl methods::Accounts for Client {
     fn fetch_account(&self, account_id: AccountID) -> Result<entities::Account> {
-        let api_method = APIMethod {
+        let api_method = APIMethodRequest {
             uri: Uri::from_str(&format!("/api/v1/accounts/{}", account_id.id)).unwrap(),
             ..APIMethodRequest::default()
         };

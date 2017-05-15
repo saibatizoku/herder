@@ -10,14 +10,15 @@ pub use self::v1::client::Client;
 /// constructor of HTTPS requests, used in API Mehtods.
 ///
 #[derive(Debug, Default, PartialEq)]
-pub struct APIMethod {
+pub struct APIMethodRequest {
     /// defines the HTTP Request method
-    pub request_method: hyper::Method,
+    pub body: Option<String>,
+    /// query of request
+    pub headers: hyper::Headers,
+    /// body of request
+    pub method: hyper::Method,
+    /// body of request
+    pub query: Option<String>,
     /// API endpoint for this method
-    pub endpoint: String,
-    /// API endpoint for this method
-    pub form_data: Option<String>,
-    /// API endpoint for this method
-    pub url_query: Option<String>
+    pub uri: hyper::Uri
 }
-
