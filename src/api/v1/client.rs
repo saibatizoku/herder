@@ -56,65 +56,64 @@ impl APIEndpointRequest for Client {
     fn build_request(&self, endpoint: APIEndpoint) -> Result<Request<Body>> {
         match endpoint {
             APIEndpoint::FetchAccount(account) => {
-                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}", account.id));
-                let uri = Uri::from_str(&url).unwrap();
-                let mut req = Request::new(Get, uri);
-                Ok(req)
+                let url = self.endpoint_url(&format!("/api/v1/accounts/{}", account.id))?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                self.bearer_token_request(Get, uri)
             },
             APIEndpoint::GetCurrentUser => {
-                let url = self.endpoint_url_string("/api/v1/accounts/verify_credentials");
-                let uri = Uri::from_str(&url).unwrap();
-                let mut req = Request::new(Get, uri);
-                Ok(req)
+                let url = self.endpoint_url("/api/v1/accounts/verify_credentials")?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                self.bearer_token_request(Get, uri)
             },
             APIEndpoint::UpdateCurrentUser(d) => {
-                let url = self.endpoint_url_string("/api/v1/accounts/update_credentials");
-                let uri = Uri::from_str(&url).unwrap();
-                let mut req = Request::new(Patch, uri);
-                Ok(req)
+                let url = self.endpoint_url("/api/v1/accounts/update_credentials")?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                self.bearer_token_request(Patch, uri)
             },
             APIEndpoint::GetAccountFollowers(a) => {
-                let uri = Uri::from_str(&format!("/api/v1/accounts/{}/followers", a.id)).unwrap();
-                let mut req = Request::new(Get, uri);
-                Ok(req)
+                let url = self.endpoint_url(&format!("/api/v1/accounts/{}/followers", a.id))?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                self.bearer_token_request(Get, uri)
             },
             APIEndpoint::GetFollowing(a) => {
-                let uri = Uri::from_str(&format!("/api/v1/accounts/{}/following", a.id)).unwrap();
-                Ok(Request::new(Get, uri))
+                let url = self.endpoint_url(&format!("/api/v1/accounts/{}/following", a.id))?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                self.bearer_token_request(Get, uri)
             },
             APIEndpoint::GetAccountStatuses(a) => {
-                let uri = Uri::from_str(&format!("/api/v1/accounts/{}/statuses", a.id)).unwrap();
-                Ok(Request::new(Get, uri))
+                let url = self.endpoint_url(&format!("/api/v1/accounts/{}/statuses", a.id))?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                self.bearer_token_request(Get, uri)
             },
             APIEndpoint::FollowAccount(account) => {
-                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/follow", account.id));
-                let uri = Uri::from_str(&url).unwrap();
-                Ok(Request::new(Post, uri))
+                let url = self.endpoint_url(&format!("/api/v1/accounts/{}/follow", account.id))?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                self.bearer_token_request(Post, uri)
             },
             APIEndpoint::UnfollowAccount(account) => {
-                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/unfollow", account.id));
-                let uri = Uri::from_str(&url).unwrap();
-                Ok(Request::new(Post, uri))
+                let url = self.endpoint_url(&format!("/api/v1/accounts/{}/unfollow", account.id))?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                self.bearer_token_request(Post, uri)
             },
             APIEndpoint::BlockAccount(account) => {
-                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/block", account.id));
-                let uri = Uri::from_str(&url).unwrap();
+                let url = self.endpoint_url(&format!("/api/v1/accounts/{}/block", account.id))?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
                 Ok(Request::new(Post, uri))
             },
             APIEndpoint::UnblockAccount(account) => {
-                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/unblock", account.id));
-                let uri = Uri::from_str(&url).unwrap();
+                let url = self.endpoint_url(&format!("/api/v1/accounts/{}/unblock", account.id))?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
                 Ok(Request::new(Post, uri))
             },
             APIEndpoint::MuteAccount(account) => {
-                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/mute", account.id));
-                let uri = Uri::from_str(&url).unwrap();
-                Ok(Request::new(Post, uri))
+                let url = self.endpoint_url(&format!("/api/v1/accounts/{}/mute", account.id))?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                self.bearer_token_request(Post, uri)
             },
             APIEndpoint::UnmuteAccount(account) => {
-                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/unmute", account.id));
-                let uri = Uri::from_str(&url).unwrap();
-                Ok(Request::new(Post, uri))
+                let url = self.endpoint_url(&format!("/api/v1/accounts/{}/unmute", account.id))?;
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                self.bearer_token_request(Post, uri)
             },
             APIEndpoint::GetAccountRelationships(query) => {
                 let mut url = self.endpoint_url("/api/v1/accounts/relationships").unwrap();
@@ -124,12 +123,13 @@ impl APIEndpointRequest for Client {
                     },
                     RelationshipsQuery::MultipleAccounts(accounts) => {
                         for account in &accounts {
-                            url.query_pairs_mut().append_pair("id[]", &format!("{}", account.id));
+                            url.query_pairs_mut()
+                                .append_pair("id[]", &format!("{}", account.id));
                         }
                     }
                 };
-                let req = Request::new(Get, Uri::from_str(url.as_str()).unwrap());
-                Ok(req)
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                self.bearer_token_request(Get, uri)
             },
             APIEndpoint::SearchAccounts(q) => {
                 let mut url = self.endpoint_url("/api/v1/accounts/search").unwrap();
@@ -138,7 +138,7 @@ impl APIEndpointRequest for Client {
                     url.query_pairs_mut().append_pair("limit", &format!("{}", limit));
                 };
                 let uri = Uri::from_str(url.as_str()).unwrap();
-                Ok(Request::new(Get, uri))
+                self.bearer_token_request(Get, uri)
             }
         }
     }
