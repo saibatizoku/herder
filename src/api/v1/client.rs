@@ -4,12 +4,18 @@ use api::APIMethodRequest;
 use errors::*;
 use hyper::Uri;
 use hyper::header::Bearer;
+use hyper::Client as WebClient;
+use hyper::{Body, Uri};
+use hyper::Method::{Get, Patch, Post};
+use hyper::client::Request;
 use mastodon::ApiHandler;
 use std::str::FromStr;
 use super::entities;
 use super::methods;
 use super::methods::{
     AccountID,
+    APIEndpoint,
+    APIEndpointRequest,
     HomeTimelineQuery,
     NotificationID,
     SearchAccountsQuery,
@@ -34,6 +40,98 @@ impl ApiHandler for Client {
     }
     fn endpoint_url_string(&self, path: &str) -> String {
         self.endpoint_url(path).unwrap().into_string()
+    }
+}
+
+impl APIEndpointRequest for Client {
+    fn build_request(&self, endpoint: APIEndpoint) -> Result<Request<Body>> {
+        match endpoint {
+            APIEndpoint::FetchAccount(account) => {
+                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}", account.id));
+                let uri = Uri::from_str(&url).unwrap();
+                let mut req = Request::new(Get, uri);
+                Ok(req)
+            },
+            APIEndpoint::GetCurrentUser => {
+                let url = self.endpoint_url_string("/api/v1/accounts/verify_credentials");
+                let uri = Uri::from_str(&url).unwrap();
+                let mut req = Request::new(Get, uri);
+                Ok(req)
+            },
+            APIEndpoint::UpdateCurrentUser(d) => {
+                let url = self.endpoint_url_string("/api/v1/accounts/update_credentials");
+                let uri = Uri::from_str(&url).unwrap();
+                let mut req = Request::new(Patch, uri);
+                Ok(req)
+            },
+            APIEndpoint::GetAccountFollowers(a) => {
+                let uri = Uri::from_str(&format!("/api/v1/accounts/{}/followers", a.id)).unwrap();
+                let mut req = Request::new(Get, uri);
+                Ok(req)
+            },
+            APIEndpoint::GetFollowing(a) => {
+                let uri = Uri::from_str(&format!("/api/v1/accounts/{}/following", a.id)).unwrap();
+                Ok(Request::new(Get, uri))
+            },
+            APIEndpoint::GetAccountStatuses(a) => {
+                let uri = Uri::from_str(&format!("/api/v1/accounts/{}/statuses", a.id)).unwrap();
+                Ok(Request::new(Get, uri))
+            },
+            APIEndpoint::FollowAccount(account) => {
+                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/follow", account.id));
+                let uri = Uri::from_str(&url).unwrap();
+                Ok(Request::new(Post, uri))
+            },
+            APIEndpoint::UnfollowAccount(account) => {
+                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/unfollow", account.id));
+                let uri = Uri::from_str(&url).unwrap();
+                Ok(Request::new(Post, uri))
+            },
+            APIEndpoint::BlockAccount(account) => {
+                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/block", account.id));
+                let uri = Uri::from_str(&url).unwrap();
+                Ok(Request::new(Post, uri))
+            },
+            APIEndpoint::UnblockAccount(account) => {
+                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/unblock", account.id));
+                let uri = Uri::from_str(&url).unwrap();
+                Ok(Request::new(Post, uri))
+            },
+            APIEndpoint::MuteAccount(account) => {
+                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/mute", account.id));
+                let uri = Uri::from_str(&url).unwrap();
+                Ok(Request::new(Post, uri))
+            },
+            APIEndpoint::UnmuteAccount(account) => {
+                let url = self.endpoint_url_string(&format!("/api/v1/accounts/{}/unmute", account.id));
+                let uri = Uri::from_str(&url).unwrap();
+                Ok(Request::new(Post, uri))
+            },
+            APIEndpoint::GetAccountRelationships(query) => {
+                let mut url = self.endpoint_url("/api/v1/accounts/relationships").unwrap();
+                match query {
+                    RelationshipsQuery::SingleAccount(account) => {
+                        url.query_pairs_mut().append_pair("id", &format!("{}", account.id));
+                    },
+                    RelationshipsQuery::MultipleAccounts(accounts) => {
+                        for account in &accounts {
+                            url.query_pairs_mut().append_pair("id[]", &format!("{}", account.id));
+                        }
+                    }
+                };
+                let req = Request::new(Get, Uri::from_str(url.as_str()).unwrap());
+                Ok(req)
+            },
+            APIEndpoint::SearchAccounts(q) => {
+                let mut url = self.endpoint_url("/api/v1/accounts/search").unwrap();
+                url.query_pairs_mut().append_pair("q", &q.q);
+                if let Some(limit) = q.limit {
+                    url.query_pairs_mut().append_pair("limit", &format!("{}", limit));
+                };
+                let uri = Uri::from_str(url.as_str()).unwrap();
+                Ok(Request::new(Get, uri))
+            }
+        }
     }
 }
 
