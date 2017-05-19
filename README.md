@@ -40,10 +40,16 @@ TODO
   - [X] OAuth Application registration / OAuth Application authorization. See [example](examples/create-app.rs)
 
   - [X] API Entities
-	  - [X] Tests for JSON deserialization
-	  - [X] JSON deserialization
-  - API Methods
-	  - [X] Tests all endpoints
-	  - [ ] Build endpoint requests
-	  - [ ] Parse endpoint responses
-  - Web Client, hyper-based
+      - [X] Tests for JSON deserialization
+      - [X] JSON deserialization
+  - [ ] API Methods
+      - [X] Tests all endpoints
+      - [X] Build endpoint requests
+          - [ ] Parse endpoint responses
+  - [X] Client
+      - [X] Registering client with OAuth
+      - [ ] Requesting authorization with OAuth
+      - [ ] Requesting the access token
+  - [X] Mastodon
+  - [ ] Herd. A collection of Mastodons
+  - [ ] Herder. A manager for multiple Mastodons.
