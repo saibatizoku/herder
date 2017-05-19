@@ -2,8 +2,31 @@
 //!
 
 use api::oauth::OAuthApp;
+use hyper::{Body, Request};
 use errors::*;
 use super::entities;
+
+pub enum APIEndpoint {
+    // AccountsMethod: Fetch Account
+    FetchAccount(AccountID),
+    GetCurrentUser,
+    UpdateCurrentUser(UserFormData),
+    GetAccountFollowers(AccountID),
+    GetFollowing(AccountID),
+    GetAccountStatuses(AccountID),
+    FollowAccount(AccountID),
+    UnfollowAccount(AccountID),
+    BlockAccount(AccountID),
+    UnblockAccount(AccountID),
+    MuteAccount(AccountID),
+    UnmuteAccount(AccountID),
+    GetAccountRelationships(RelationshipsQuery),
+    SearchAccounts(SearchAccountsQuery)
+}
+
+pub trait APIEndpointRequest {
+    fn build_request(&self, endpoint: APIEndpoint) -> Result<Request<Body>>;
+}
 
 /// updatable fields for the authenticated user.
 #[derive(Debug, Deserialize, PartialEq, Serialize)]
