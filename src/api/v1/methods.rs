@@ -2,7 +2,7 @@
 //!
 
 use api::oauth::OAuthApp;
-use hyper::{Body, Request};
+use hyper::{Body, Method, Request, Uri};
 use errors::*;
 use std::sync::{Arc, Mutex};
 use super::entities;
@@ -26,6 +26,7 @@ pub enum APIEndpoint {
 }
 
 pub trait APIEndpointRequest {
+    fn bearer_token_request(&self, method: Method, uri: Uri) -> Result<Request<Body>>;
     fn build_request(&self, endpoint: APIEndpoint) -> Result<Request<Body>>;
     fn send(&self, endpoint: APIEndpoint, dst: Arc<Mutex<Vec<u8>>>) -> Result<()>;
 }

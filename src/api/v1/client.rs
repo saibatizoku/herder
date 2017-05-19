@@ -1,16 +1,15 @@
 //! This module contains the code representing Mastodon nodes and API Clients
 //!
-use api::APIMethodRequest;
 use errors::*;
 use futures::{Future, Stream};
-use hyper::header::Bearer;
-use hyper::header::ContentType;
 use hyper::Client as WebClient;
-use hyper::{Body, Uri};
+use hyper::{Body, Uri, Method};
 use hyper::Method::{Get, Patch, Post};
 use hyper::client::Request;
+use hyper::header::{Headers, ContentType, Authorization, Bearer};
 use hyper_tls::HttpsConnector;
 use mastodon::ApiHandler;
+use serde_json;
 use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 use super::entities;
@@ -49,6 +48,11 @@ impl ApiHandler for Client {
 }
 
 impl APIEndpointRequest for Client {
+    fn bearer_token_request(&self, method: Method, uri: Uri) -> Result<Request<Body>> {
+        let mut req = Request::new(method, uri);
+        req.headers_mut().set(Authorization(self.token.clone()));
+        Ok(req)
+    }
     fn build_request(&self, endpoint: APIEndpoint) -> Result<Request<Body>> {
         match endpoint {
             APIEndpoint::FetchAccount(account) => {
