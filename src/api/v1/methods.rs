@@ -38,7 +38,7 @@ pub struct UserFormData {
 }
 
 impl UserFormData {
-    pub fn new(&self, display_name: Option<String>, note: Option<String>, avatar: Option<String>, header: Option<String>) -> Self {
+    pub fn new(display_name: Option<String>, note: Option<String>, avatar: Option<String>, header: Option<String>) -> Self {
         UserFormData {
             display_name,
             note,
@@ -70,6 +70,12 @@ pub struct StatusID {
 #[derive(Debug, PartialEq)]
 pub struct TagID {
     pub id: usize
+}
+
+/// Fields to query accounts.
+pub enum RelationshipsQuery {
+    SingleAccount(AccountID),
+    MultipleAccounts(Vec<AccountID>)
 }
 
 /// Fields to query accounts.

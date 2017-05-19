@@ -18,6 +18,7 @@ use super::methods::{
     APIEndpointRequest,
     HomeTimelineQuery,
     NotificationID,
+    RelationshipsQuery,
     SearchAccountsQuery,
     SearchContentsQuery,
     StatusID,
@@ -177,7 +178,7 @@ impl methods::Accounts for Client {
     fn unmute_account(&self, account_id: AccountID) -> Result<entities::Relationship> {
         unimplemented!()
     }
-    fn get_account_relationships(&self, account_id: AccountID) -> Result<Vec<entities::Relationship>> {
+    fn get_account_relationships(&self, query: RelationshipsQuery) -> Result<Vec<entities::Relationship>> {
         unimplemented!()
     }
     fn search_accounts(&self, query: SearchAccountsQuery) -> Result<Vec<entities::Account>> {
