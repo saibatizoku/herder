@@ -37,19 +37,26 @@ TODO
 
 * Implement Mastodon API (v1) as found at the official [API Overview](https://github.com/tootsuite/documentation/blob/master/Using-the-API/API.md)
 
-  - [X] OAuth Application registration / OAuth Application authorization. See [example](examples/create-app.rs)
+  - [X] OAuth Application registration / OAuth Application authorization. 
 
-  - [X] API Entities
-      - [X] Tests for JSON deserialization
-      - [X] JSON deserialization
-  - [ ] API Methods
-      - [X] Tests all endpoints
-      - [X] Build endpoint requests
-          - [ ] Parse endpoint responses
   - [X] Client
-      - [X] Registering client with OAuth
-      - [ ] Requesting authorization with OAuth
-      - [ ] Requesting the access token
+
+      - [ ] OAuth
+          - [X] Registering client with OAuth. See [example](examples/create-app.rs).
+          - [ ] Requesting authorization with OAuth
+          - [ ] Requesting the access token
+
+      - [X] API Entities
+          - [X] Tests for JSON deserialization
+          - [X] JSON deserialization
+
+      - [ ] API Methods
+          - [X] Tests all endpoints
+          - [X] Build endpoint requests
+          - [ ] Parse endpoint responses
+
   - [X] Mastodon
+
   - [ ] Herd. A collection of Mastodons
+
   - [ ] Herder. A manager for multiple Mastodons.
