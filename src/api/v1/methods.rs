@@ -80,7 +80,7 @@ pub struct TimelineQuery {
 pub trait Accounts {
     /// Fetching an account:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/accounts/:account_id
     /// ```
     ///
@@ -89,7 +89,7 @@ pub trait Accounts {
 
     /// Getting the current user:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/accounts/verify_credentials
     /// ```
     ///
@@ -98,7 +98,7 @@ pub trait Accounts {
 
     /// Updating the current user:
     ///
-    /// ```
+    /// ```norun
     /// PATCH /api/v1/accounts/update_credentials
     /// ```
     ///
@@ -107,7 +107,7 @@ pub trait Accounts {
 
     /// Getting an account's followers:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/accounts/:account_id/followers
     /// ```
     /// Query parameters:
@@ -123,7 +123,7 @@ pub trait Accounts {
 
     /// Get who account is following:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/accounts/:account_id/following
     /// ```
     ///
@@ -140,7 +140,7 @@ pub trait Accounts {
 
     /// Get an account's statuses:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/accounts/:account_id/statuses
     /// ```
     ///
@@ -161,7 +161,7 @@ pub trait Accounts {
 
     /// Following an account:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/accounts/:account_id/follow
     /// ```
     ///
@@ -170,7 +170,7 @@ pub trait Accounts {
 
     /// Unfollowing an account:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/accounts/:account_id/unfollow
     /// ```
     ///
@@ -179,7 +179,7 @@ pub trait Accounts {
 
     /// Blocking an account:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/accounts/:account_id/block
     /// ```
     ///
@@ -188,7 +188,7 @@ pub trait Accounts {
 
     /// Unblocking an account:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/accounts/:account_id/unblock
     /// ```
     ///
@@ -197,7 +197,7 @@ pub trait Accounts {
 
     /// Muting an account:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/accounts/:account_id/mute
     /// ```
     ///
@@ -206,7 +206,7 @@ pub trait Accounts {
 
     /// Unmuting an account:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/accounts/:account_id/unmute
     /// ```
     ///
@@ -215,7 +215,7 @@ pub trait Accounts {
 
     /// Getting an account's relationships:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/accounts/relationships
     /// ```
     ///
@@ -224,11 +224,11 @@ pub trait Accounts {
     /// `id` Account IDs (can be an array). It is required.
     ///
     /// Returns an array of `Relationship`s of the current user to a list of given accounts.
-    fn get_account_relationships(&self, account_id: AccountID) -> Result<Vec<entities::Relationship>>;
+    fn get_account_relationships(&self, query: RelationshipsQuery) -> Result<Vec<entities::Relationship>>;
 
     /// Searching for accounts:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/accounts/search
     /// ```
     ///
@@ -248,7 +248,7 @@ pub trait Accounts {
 pub trait Apps {
     /// Registering an application:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/apps
     /// ```
     ///
@@ -265,13 +265,13 @@ pub trait Apps {
     /// `website` URL to the homepage of your app. It is optional.
     ///
     /// Creates and returns a new `OAuthApp`.
-    fn register_app(&self, name: &str, uris: &str, scopes: &str) -> OAuthApp;
+    fn register_app(&self, name: &str, uris: &str, scopes: &str, website: &str) -> OAuthApp;
 }
 
 pub trait Blocks {
     /// Fetching a user's blocks:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/blocks
     /// ```
     /// Query parameters:
@@ -288,7 +288,7 @@ pub trait Blocks {
 pub trait Favourites {
     /// Fetching a user's favourites:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/favourites
     /// ```
     /// Query parameters:
@@ -306,7 +306,7 @@ pub trait Favourites {
 pub trait FollowRequests {
     /// Fetching a list of follow requests:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/follow_requests
     /// ```
     /// Query parameters:
@@ -322,7 +322,7 @@ pub trait FollowRequests {
 
     /// Authorizing follow requests
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/follow_requests/:account_id/authorize
     /// ```
     ///
@@ -335,7 +335,7 @@ pub trait FollowRequests {
 
     /// Rejecting follow requests
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/follow_requests/:account_id/reject
     /// ```
     ///
@@ -350,7 +350,7 @@ pub trait FollowRequests {
 pub trait Follows {
     /// Following a remote user:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/follows
     /// ```
     ///
@@ -365,7 +365,7 @@ pub trait Follows {
 pub trait Instances {
     /// Getting instance information:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/instance
     /// ```
     ///
@@ -378,7 +378,7 @@ pub trait Instances {
 pub trait Media {
     /// Uploading a media attachment:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/media
     /// ```
     ///
@@ -393,7 +393,7 @@ pub trait Media {
 pub trait Mutes {
     /// Fetching a user's mutes
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/mutes
     /// ```
     ///
@@ -412,7 +412,7 @@ pub trait Mutes {
 pub trait Notifications {
     /// Fetching a user's notifications:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/notifications
     /// ```
     ///
@@ -429,7 +429,7 @@ pub trait Notifications {
 
     /// Getting a single notification:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/notifications/:notification_id
     /// ```
     ///
@@ -438,7 +438,7 @@ pub trait Notifications {
 
     /// Clearing notifications:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/notifications/clear
     /// ```
     ///
@@ -450,7 +450,7 @@ pub trait Notifications {
 pub trait Reports {
     /// Fetching a user's reports:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/reports
     /// ```
     ///
@@ -459,7 +459,7 @@ pub trait Reports {
 
     /// Reporting a user:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/reports
     /// ```
     ///
@@ -478,7 +478,7 @@ pub trait Reports {
 pub trait Search {
     /// Searching for content:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/search
     /// ```
     ///
@@ -500,7 +500,7 @@ pub trait Search {
 pub trait Statuses {
     /// Fetching a status:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/statuses/:status_id
     /// ```
     ///
@@ -511,7 +511,7 @@ pub trait Statuses {
 
     /// Getting status context:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/statuses/:status_id/context
     /// ```
     ///
@@ -522,7 +522,7 @@ pub trait Statuses {
 
     /// Getting a card associated with a status:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/statuses/:status_id/card
     /// ```
     ///
@@ -534,7 +534,7 @@ pub trait Statuses {
 
     /// Getting who reblogged a status:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/statuses/:status_id/reblogged_by
     /// ```
     ///
@@ -553,7 +553,7 @@ pub trait Statuses {
 
     /// Getting who favourited a status:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/statuses/:status_id/favourited_by
     /// ```
     ///
@@ -572,7 +572,7 @@ pub trait Statuses {
 
     /// Posting a new status:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/statuses
     /// ```
     ///
@@ -589,7 +589,7 @@ pub trait Statuses {
 
     /// Deleting a status:
     ///
-    /// ```
+    /// ```norun
     /// DELETE /api/v1/statuses/:status_id
     /// ```
     ///
@@ -598,7 +598,7 @@ pub trait Statuses {
 
     /// Reblogging a status:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/statuses/:status_id/reblog
     /// ```
     ///
@@ -607,7 +607,7 @@ pub trait Statuses {
 
     /// Unreblogging a status:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/statuses/:status_id/unreblog
     /// ```
     ///
@@ -616,7 +616,7 @@ pub trait Statuses {
 
     /// Favouriting/unfavouriting a status:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/statuses/:status_id/favourite
     /// ```
     ///
@@ -625,7 +625,7 @@ pub trait Statuses {
 
     /// Favouriting/unfavouriting a status:
     ///
-    /// ```
+    /// ```norun
     /// POST /api/v1/statuses/:status_id/unfavourite
     /// ```
     ///
@@ -636,7 +636,7 @@ pub trait Statuses {
 pub trait Timelines {
     /// Retrieving a home timeline:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/timelines/home
     /// ```
     ///
@@ -654,7 +654,7 @@ pub trait Timelines {
 
     /// Retrieving a public timeline:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/timelines/public
     /// ```
     ///
@@ -676,7 +676,7 @@ pub trait Timelines {
 
     /// Retrieving a timeline:
     ///
-    /// ```
+    /// ```norun
     /// GET /api/v1/timelines/tag/:hashtag
     /// ```
     ///
