@@ -2,14 +2,17 @@
 //!
 use api::APIMethodRequest;
 use errors::*;
-use hyper::Uri;
+use futures::{Future, Stream};
 use hyper::header::Bearer;
+use hyper::header::ContentType;
 use hyper::Client as WebClient;
 use hyper::{Body, Uri};
 use hyper::Method::{Get, Patch, Post};
 use hyper::client::Request;
+use hyper_tls::HttpsConnector;
 use mastodon::ApiHandler;
 use std::str::FromStr;
+use std::sync::{Arc, Mutex};
 use super::entities;
 use super::methods;
 use super::methods::{
@@ -26,6 +29,7 @@ use super::methods::{
     TimelineQuery,
     UserFormData
 };
+use tokio_core::reactor::Core;
 use url::Url;
 
 
@@ -133,6 +137,28 @@ impl APIEndpointRequest for Client {
                 Ok(Request::new(Get, uri))
             }
         }
+    }
+
+    fn send(&self, endpoint: APIEndpoint, dst: Arc<Mutex<Vec<u8>>>) -> Result<()> {
+        let mut core = Core::new().chain_err(|| "Could not start client reactor")?;
+        let client = WebClient::configure()
+            .connector(HttpsConnector::new(4, &core.handle()))
+            .build(&core.handle());
+
+        let req: Request<Body> = self.build_request(endpoint).chain_err(|| "Could not build request")?;
+        //req.headers_mut().set(ContentType::form_url_encoded());
+        //req.set_body(Body::from(self.form_encode()));
+
+        let mut dst = dst.lock().unwrap();
+        let work = client.request(req)
+            .and_then(|res| {
+                res.body().for_each(|chunk| {
+                    dst.extend_from_slice(&chunk);
+                    Ok(())
+                })
+            });
+        core.run(work).chain_err(|| "Failed to run registration")?;
+        Ok(())
     }
 }
 

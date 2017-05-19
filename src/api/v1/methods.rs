@@ -4,6 +4,7 @@
 use api::oauth::OAuthApp;
 use hyper::{Body, Request};
 use errors::*;
+use std::sync::{Arc, Mutex};
 use super::entities;
 
 pub enum APIEndpoint {
@@ -26,6 +27,7 @@ pub enum APIEndpoint {
 
 pub trait APIEndpointRequest {
     fn build_request(&self, endpoint: APIEndpoint) -> Result<Request<Body>>;
+    fn send(&self, endpoint: APIEndpoint, dst: Arc<Mutex<Vec<u8>>>) -> Result<()>;
 }
 
 /// updatable fields for the authenticated user.
