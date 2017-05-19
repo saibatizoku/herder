@@ -98,7 +98,7 @@ impl CreateApp {
             .connector(HttpsConnector::new(4, &core.handle()))
             .build(&core.handle());
 
-        let url = Uri::from_str(api_url).chain_err(|| "Invalid URL")?;
+        let url = Uri::from_str(api_url).chain_err(|| "Invalid registration URL")?;
         let mut req: Request<Body> = Request::new(Post, url);
         req.headers_mut().set(ContentType::form_url_encoded());
         req.set_body(Body::from(self.form_encode()));
@@ -111,7 +111,7 @@ impl CreateApp {
                     Ok(())
                 })
             });
-        core.run(work).chain_err(|| "couldn't work")?;
+        core.run(work).chain_err(|| "Failed to run registration")?;
         Ok(())
     }
 

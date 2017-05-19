@@ -50,7 +50,7 @@ fn run() -> Result<()> {
     let mastodon = Mastodon::new(base_url).chain_err(|| "invalid URL, could not create Mastodon")?;
     let new_app: CreateApp = CreateApp::new("herder-app", "urn:ietf:wg:oauth:2.0:oob", "read write follow");
     let oauth_app: OAuthApp = mastodon.register_app(new_app).chain_err(|| "registration of App failed.")?;
-    print_success_msg();
+    print_success_msg(base_url, &oauth_app);
     if matches.is_present("json") {
         let path = matches.value_of("json").unwrap_or("output.json");
         println!();
@@ -62,7 +62,7 @@ fn run() -> Result<()> {
     Ok(())
 }
 
-fn print_success_msg() {
+fn print_success_msg(base_url: &str, oauth_app: &OAuthApp) {
     println!();
     println!("Successfully registered our app on {}", base_url);
     println!();
