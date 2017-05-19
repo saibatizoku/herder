@@ -24,16 +24,11 @@ cargo run --example create-app -- -h
 
 To register a new app, simply specify the HTTPS path to your Mastodon node.
 ```
-cargo run --example create-app -- https://mastodon.example.com
+cargo run --example create-app -- https://mastodon.example.com/ my-app.json
 ```
 
-To save the response in JSON format:
+where `my-app.json` save the returned client credentials in JSON format.
 ```
-cargo run --example create-app -- https://mastodon.otherexample.com/ -j out.json
-```
-or
-```
-cargo run --example create-app -- https://mastodon.otherexample.com/ --json-file out.json
 ```
 
 

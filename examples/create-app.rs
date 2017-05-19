@@ -40,8 +40,6 @@ fn run() -> Result<()> {
              .takes_value(true))
         .arg(Arg::with_name("json")
              .help("Specifies the path to save the JSON results from the server.")
-             .short("j")
-             .long("json-file")
              .value_name("FILE")
              .takes_value(true))
         .get_matches();
