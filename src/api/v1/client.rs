@@ -168,24 +168,39 @@ impl APIEndpointRequest for Client {
 
 impl methods::Accounts for Client {
     fn fetch_account(&self, account_id: AccountID) -> Result<entities::Account> {
-        let api_method = APIMethodRequest {
-            uri: Uri::from_str(&format!("/api/v1/accounts/{}", account_id.id)).unwrap(),
-            ..APIMethodRequest::default()
-        };
-        println!("FETCH ACCOUNT: {:?}", api_method);
-        Ok(entities::Account::default())
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::FetchAccount(account_id);
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error fetching account.")
     }
     fn get_current_user(&self) -> Result<entities::Account> {
-        unimplemented!();
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::GetCurrentUser;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error getting current user.")
     }
     fn update_current_user(&self, form_data: UserFormData) -> Result<entities::Account> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::UpdateCurrentUser(form_data);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error updating current user.")
     }
     fn get_account_followers(&self, account_id: AccountID) -> Result<Vec<entities::Account>> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::GetAccountFollowers(account_id);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error getting account followers.")
     }
     fn get_account_following(&self, account_id: AccountID) -> Result<Vec<entities::Account>> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::GetFollowing(account_id);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error getting account's following.")
     }
     fn get_account_statutes(&self, account_id: AccountID) -> Result<Vec<entities::Status>> {
         unimplemented!()
