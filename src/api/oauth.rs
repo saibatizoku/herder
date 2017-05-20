@@ -66,7 +66,7 @@ pub fn make_client(app: &OAuthApp, node_endpoint: &str) -> Easy {
 ///
 /// let social_app = CreateApp::default();
 ///
-#[derive(Debug)]
+#[derive(Debug, Deserialize)]
 pub struct CreateApp {
     client_name: String,
     redirect_uris: String,

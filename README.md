@@ -28,8 +28,13 @@ cargo run --example create-app -- https://mastodon.example.com/ my-app.json
 ```
 
 where `my-app.json` save the returned client credentials in JSON format.
+
+or, you can read the new client configuration by running:
 ```
+cargo run --example create-app -- https://mastodon.example.com/ -c myclient.json my-app.json
 ```
+
+where `myclient.json` is a customized 'CreateApp' in JSON format.
 
 
 TODO
