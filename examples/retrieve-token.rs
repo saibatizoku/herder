@@ -18,11 +18,10 @@ use herder::api::oauth::OAuthApp;
 use herder::errors::*;
 use hyper::Client as WebClient;
 use hyper::{Body, Post, Uri};
-use hyper::client::{FutureResponse, Request, Response};
-use hyper::header::{Headers, ContentType, Authorization, Bearer};
+use hyper::client::{Request, Response};
+use hyper::header::{Headers, ContentType};
 use hyper_tls::HttpsConnector;
 use futures::{Future, Stream};
-use futures::future::AndThen;
 use tokio_core::reactor::Core;
 use url::Url;
 
@@ -33,14 +32,12 @@ use std::str::FromStr;
 use std::sync::{Arc, Mutex};
 
 pub enum AuthorizationType {
-    ClientCredentials {
-        username: String
-    },
+    ClientCredentials,
     Password {
         user: String,
         pass: String
     },
-    RequestAuthorization { user: String }
+    RequestAuthorization { code: String }
 }
 
 struct HerderData {
@@ -111,31 +108,28 @@ fn run() -> Result<()> {
     let app: OAuthApp = serde_json::from_reader(client_json).chain_err(|| "Could not save OAuth to JSON File.")?;
     println!("\t...Loaded app: {}", app);
     println!();
-    println!("\tUser credentials:");
     {
-        println!("username:");
-        let mut user = String::new();
-        io::stdin().read_line(&mut user).chain_err(|| "wrong username").unwrap();
-
-        //let mut pass = rpassword::prompt_password_stdout("password?")
-        //    .chain_err(|| "Could not process password").unwrap();
-
-        user.pop();
-        //pass.pop();
+        println!("\tAuthorization code:");
+        println!("Please enter code:");
+        let mut code = String::new();
+        io::stdin().read_line(&mut code).chain_err(|| "Couldn't read the Authorization code.").unwrap();
+        code.pop();
 
         let herder_data = HerderData::new();
-        let data = herder_data.data;
+        let data = &herder_data.data;
+        let grant = AuthorizationType::RequestAuthorization{ code };
 
-        fetch_token(mastodon_uri.as_ref(), &app, AuthorizationType::RequestAuthorization{ user }, data.clone())?;
+        fetch_token(mastodon_uri.as_ref(), &app, grant, data.clone())?;
 
         {
             let data = data.lock().unwrap();
             if data.is_empty() { panic!("Invalid result. Empty") }
             println!();
-            io::stdout().write_all(&data)?;
-            println!();
-            let api_token: APIToken = serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error.")?;
-            println!("Token: {:?}", api_token);
+            if let Ok(APIToken { access_token, ..}) = serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error.") {
+                println!("Token: {:?}", access_token);
+            } else {
+                io::stdout().write_all(&data)?;
+            };
             println!();
         }
     }
@@ -147,15 +141,10 @@ fn fetch_token(url: &str, app: &OAuthApp, grant_type: AuthorizationType, data: A
         .connector(HttpsConnector::new(4, &core.handle()))
         .build(&core.handle());
 
-    let mut uri = Url::from_str(url)?;
-    // uri.query_pairs_mut().append_pair("id[]", "43");
-    // uri.query_pairs_mut().append_pair("id[]", "44");
-    // println!("query: {}", &uri.query().unwrap());
+    let uri = Url::from_str(url)?;
 
-    //let params = client_credentials_grant_type(app);
-    //let body_str = serde_urlencoded::to_string(params).unwrap();
     let body_str = match grant_type {
-        AuthorizationType::ClientCredentials { username: user } => {
+        AuthorizationType::ClientCredentials => {
             let params = &[
                 ("client_id", &app.client_id),
                 ("client_secret", &app.client_secret),
@@ -174,24 +163,20 @@ fn fetch_token(url: &str, app: &OAuthApp, grant_type: AuthorizationType, data: A
                     ];
             serde_urlencoded::to_string(params).unwrap()
         },
-        AuthorizationType::RequestAuthorization { user } => {
+        AuthorizationType::RequestAuthorization { code } => {
             let params = &[
                 ("client_id", &app.client_id),
                 ("client_secret", &app.client_secret),
                 ("redirect_uri", &app.redirect_uri),
-                ("code", &"CODE".to_owned()),
+                ("code", &code.to_owned()),
                 ("grant_type", &"authorization_code".to_owned())
                     ];
             serde_urlencoded::to_string(params).unwrap()
         }
     };
-    let req = build_request(uri.as_str(), None, Some(&body_str))?;
-    println!("Created a new request: {:#?}", &req);
-    //println!("Created a herder response: {}", data.lock().unwrap());
-    //println!("Request: {:#?}", &req);
-    //println!("Body: {:#?}", &req.body());
-    println!("Body text: {:?}", body_str);
+    let req = build_request(uri.as_str(), Some(&body_str))?;
     let mut data = data.lock().unwrap();
+
     let work = client.request(req).and_then(|res: Response| {
         println!("response {:#?}", res);
         res.body().for_each(|chunk| {
@@ -203,22 +188,16 @@ fn fetch_token(url: &str, app: &OAuthApp, grant_type: AuthorizationType, data: A
     Ok(())
 }
 
-fn build_request(url: &str, query: Option<&str>, body: Option<&str>) -> Result<Request<Body>> {
+fn build_request(url: &str, body: Option<&str>) -> Result<Request<Body>> {
     let uri = Uri::from_str(url).chain_err(|| "Invalid URI for endpoint")?;
     let mut req: Request<Body> = Request::new(Post, uri);
     let mut headers = Headers::new();
-    //headers.set(
-    //    Authorization(
-    //        Bearer {
-    //            token: "4a96540a231038a1346601e01eecfef36aece0e181a1362037b3a284db731246".to_owned()
-    //        }
-    //    )
-    //);
+
     if body.is_some() {
         headers.set(ContentType::form_url_encoded());
         req.set_body(Body::from(body.unwrap().to_owned()));
     }
-    req.headers_mut().clone_from(&headers);
 
+    req.headers_mut().clone_from(&headers);
     Ok(req)
 }
