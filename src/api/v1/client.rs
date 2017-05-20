@@ -203,31 +203,67 @@ impl methods::Accounts for Client {
         serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error getting account's following.")
     }
     fn get_account_statutes(&self, account_id: AccountID) -> Result<Vec<entities::Status>> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::GetAccountStatuses(account_id);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error getting account's statuses.")
     }
     fn follow_account(&self, account_id: AccountID) -> Result<entities::Relationship> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::FollowAccount(account_id);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error following account.")
     }
     fn unfollow_account(&self, account_id: AccountID) -> Result<entities::Relationship> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::UnfollowAccount(account_id);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error unfollowing account.")
     }
     fn block_account(&self, account_id: AccountID) -> Result<Vec<entities::Account>> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::BlockAccount(account_id);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error blocking account.")
     }
     fn unblock_account(&self, account_id: AccountID) -> Result<Vec<entities::Account>> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::UnblockAccount(account_id);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error unblocking account.")
     }
     fn mute_account(&self, account_id: AccountID) -> Result<entities::Relationship> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::MuteAccount(account_id);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error muting account.")
     }
     fn unmute_account(&self, account_id: AccountID) -> Result<entities::Relationship> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::UnmuteAccount(account_id);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error unmuting account.")
     }
     fn get_account_relationships(&self, query: RelationshipsQuery) -> Result<Vec<entities::Relationship>> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::GetAccountRelationships(query);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error getting account relationships.")
     }
     fn search_accounts(&self, query: SearchAccountsQuery) -> Result<Vec<entities::Account>> {
-        unimplemented!()
+        let data = Arc::new(Mutex::new(Vec::new()));
+        let endpoint = APIEndpoint::SearchAccounts(query);;
+        self.send(endpoint, data.clone()).unwrap();
+        let data = data.lock().unwrap();
+        serde_json::from_slice(&data).chain_err(|| "Unexpected JSON error getting account search.")
     }
 }
 impl methods::Blocks for Client {
