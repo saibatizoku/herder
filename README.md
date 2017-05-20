@@ -36,6 +36,12 @@ cargo run --example create-app -- https://mastodon.example.com/ -c myclient.json
 
 where `myclient.json` is a customized 'CreateApp' in JSON format.
 
+The printed output instructs you on how to continue, by following a URL of the type:
+
+    https://mastodon.example.com/oauth/authorize?client_id=CLIENT_ID&redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=code
+
+This will take you to a page where you may authorize the app on your Mastodon server. Once you click on 'authorize', you will be redirected to a page where you will find your **authorization code**. You'll use this code in the next example, in order to finish authorizing our app, and to retrieve our access token.
+
 
 TODO
 ----
