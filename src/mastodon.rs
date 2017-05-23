@@ -42,7 +42,7 @@ impl NodeInstance for Mastodon {
     fn register_app(&self, app: CreateApp) -> Result<OAuthApp> {
         let out = Arc::new(Mutex::new(Vec::new()));
         app
-            .register(&self.endpoint_url_string("/api/v1/apps"), out.clone())
+            .register(self.endpoint_url("/api/v1/apps")?.as_str(), out.clone())
             .chain_err(|| "Could not register App.")?;
         let out = out.lock().unwrap();
         if out.is_empty() { bail!("Invalid result. Empty") }
@@ -52,14 +52,10 @@ impl NodeInstance for Mastodon {
 
 pub trait ApiHandler {
     fn endpoint_url(&self, path: &str) -> Result<Url>;
-    fn endpoint_url_string(&self, path: &str) -> String;
 }
 
 impl ApiHandler for Mastodon {
     fn endpoint_url(&self, path: &str) -> Result<Url> {
         self.0.clone().join(path).chain_err(|| "invalid endpoint URL")
-    }
-    fn endpoint_url_string(&self, path: &str) -> String {
-        self.endpoint_url(path).chain_err(|| "invalid endpoint URL").unwrap().into_string()
     }
 }

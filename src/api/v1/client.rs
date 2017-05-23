@@ -6,7 +6,7 @@ use hyper::Client as WebClient;
 use hyper::{Body, Uri, Method};
 use hyper::Method::{Get, Patch, Post};
 use hyper::client::Request;
-use hyper::header::{Headers, ContentType, Authorization, Bearer};
+use hyper::header::{Authorization, Bearer};
 use hyper_tls::HttpsConnector;
 use mastodon::ApiHandler;
 use serde_json;
@@ -41,9 +41,6 @@ pub struct Client {
 impl ApiHandler for Client {
     fn endpoint_url(&self, path: &str) -> Result<Url> {
         self.url_base.clone().join(path).chain_err(|| "could not join path with URL")
-    }
-    fn endpoint_url_string(&self, path: &str) -> String {
-        self.endpoint_url(path).unwrap().into_string()
     }
 }
 
